@@ -150,6 +150,14 @@ dialog.pd::backdrop{background:#fff}
 @media (max-width:760px){.pd .pd-img{aspect-ratio:4/3}}
 .pd .pd-body{max-width:900px;margin:0 auto;padding:28px 16px calc(110px + env(safe-area-inset-bottom,0px))!important;overflow:visible!important}
 .pd .acts .btn{white-space:normal;text-align:center}
+.pd .amen{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px 20px}
+.pd .amen li{display:flex;gap:10px}
+.pd .amen li::before{content:"✓";color:#fff;background:var(--orange);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none;margin-top:3px}
+.pd .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:10px}
+.pd .gal:empty{display:none}
+.pd .gal a{display:block;background:var(--soft)}
+.pd .gal img{width:100%;aspect-ratio:4/3;object-fit:cover}
+#pdPlanImgs img{object-fit:contain;background:#fff;border:1px solid var(--line)}
 .pd .pd-img img{width:100%;height:100%;object-fit:cover}
 .pd .x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:24px;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .pd .pd-body{padding:24px clamp(16px,4vw,36px) calc(28px + env(safe-area-inset-bottom,0px));overflow-y:auto;display:flex;flex-direction:column;gap:16px}
@@ -407,6 +415,9 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
     <ul class="facts" id="pdFacts"></ul>
     <p class="sub">Giới thiệu</p>
     <p class="desc" id="pdDesc"></p>
+    <div id="pdAmenBox" hidden><p class="sub" id="pdAmenT">Tiện ích</p><ul class="amen" id="pdAmen"></ul></div>
+    <div id="pdPlanBox" hidden><p class="sub" id="pdPlanT">Mặt bằng</p><p class="desc" id="pdPlan"></p><div class="gal" id="pdPlanImgs"></div></div>
+    <div id="pdGalBox" hidden><p class="sub" id="pdGalT">Hình ảnh thực tế</p><div class="gal" id="pdGal"></div></div>
     <div class="vids" id="pdVids"></div>
     <div class="acts" id="pdActs"></div>
     <p class="sub" style="margin-top:28px">Dự án khác đang phân phối</p>
@@ -526,6 +537,11 @@ function openProject(i, fromRoute){
   $("pdDesc").textContent=p.desc||"Liên hệ để nhận thông tin chi tiết về dự án, bảng hàng và chính sách bán hàng mới nhất.";
   const vids=VIDEOS.filter(v=>String(v.project).toLowerCase()===p.name.toLowerCase());
   $("pdVids").innerHTML=vids.map(v=>`<a href="${esc(safeUrl(v.url))}" target="_blank" rel="noopener">${I.play}${esc(v.title)}</a>`).join("");
+  const am=lines(p.amenities);
+  $("pdAmenT").textContent="Tiện ích dự án "+p.name; $("pdAmen").innerHTML=am.map(a=>`<li>${esc(a)}</li>`).join(""); $("pdAmenBox").hidden=!am.length;
+  const pics=s=>lines(s).map(img).filter(Boolean).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>`).join("");
+  $("pdPlanT").textContent="Mặt bằng dự án "+p.name; $("pdPlan").textContent=p.plan||""; $("pdPlan").hidden=!p.plan; $("pdPlanImgs").innerHTML=pics(p.planImages); $("pdPlanBox").hidden=!(p.plan||lines(p.planImages).length);
+  $("pdGalT").textContent="Hình ảnh thực tế "+p.name; $("pdGal").innerHTML=pics(p.gallery); $("pdGalBox").hidden=!lines(p.gallery).length;
   const tel=digits(P.phone), zalo=digits(P.zalo||P.phone);
   $("pdActs").innerHTML=`<a class="btn gold" href="#nhan-thong-tin" data-proj="${esc(p.name)}">Đăng ký nhận bảng giá ${esc(p.name)}</a>`+(tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:"")+(zalo?`<a class="btn line" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">Nhắn Zalo</a>`:"");
   $("pdBarActs").innerHTML=tel?`<a class="btn gold sm" href="tel:${tel}">${I.phone}Gọi ngay</a>`:"";
