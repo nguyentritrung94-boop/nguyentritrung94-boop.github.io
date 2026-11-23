@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nguyễn Trung · Tư vấn bất động sản</title>
+<meta name="description" content="Tư vấn các dự án bất động sản đang mở bán tại Hà Đông, Hà Nội. Thông tin dự án, bảng giá và hỗ trợ vay.">
+<meta property="og:title" content="Nguyễn Trung · Tư vấn bất động sản">
+<meta property="og:description" content="Thông tin các dự án đang mở bán. Để lại số điện thoại để nhận bảng giá mới nhất.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0E5A47">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E5A47'/%3E%3Cpath d='M14 34 32 18l18 16v14a2 2 0 0 1-2 2H38V38H26v12H16a2 2 0 0 1-2-2z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+/* Bố cục: một trang cuộn — đầu trang giới thiệu, lưới dự án, form để lại số, chân trang liên hệ */
+:root{
+  --bg:#F2F5F3; --surface:#FFFFFF; --ink:#12221D; --muted:#5A6B65; --line:#DCE4E0;
+  --brand:#0E5A47; --brand-ink:#FFFFFF; --brand-soft:#DCEEE7; --brass:#A8772E; --brass-soft:#F5EAD7;
+  --danger:#B42318; --shadow:0 18px 40px -22px rgba(14,40,32,.35);
+  --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0D1513; --surface:#16211E; --ink:#E7EFEC; --muted:#97A8A2; --line:#26342F;
+  --brand:#4CC39C; --brand-ink:#05231A; --brand-soft:#15362C; --brass:#E2B56A; --brass-soft:#3A2C14;
+  --danger:#F28B80; --shadow:0 18px 40px -22px rgba(0,0,0,.7); color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+
+/* đầu trang */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.01em;min-width:0}
+.brand .dot{width:30px;height:30px;border-radius:9px;background:var(--brand);display:grid;place-items:center;flex:none}
+.brand .dot svg{width:18px;height:18px}
+.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav{display:flex;align-items:center;gap:6px}
+.nav a{text-decoration:none;font-size:14.5px;font-weight:500;color:var(--muted);padding:8px 10px;border-radius:8px}
+.nav a:hover{color:var(--ink)}
+@media (max-width:640px){.nav .hide-sm{display:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:12px;padding:12px 18px;font:inherit;font-weight:600;font-size:15.5px;text-decoration:none;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--brand);color:var(--brand-ink)}
+.btn.ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn.small{padding:8px 14px;font-size:14px;border-radius:10px}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* giới thiệu */
+.hero{padding-block:56px 40px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:48px;align-items:center}
+@media (max-width:820px){.hero-grid{grid-template-columns:1fr;gap:28px}.hero{padding-block:32px 24px}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);background:var(--brass-soft);padding:6px 12px;border-radius:999px}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;letter-spacing:-.025em;font-weight:800;margin:18px 0 10px;text-wrap:balance}
+.hero .role{font-size:clamp(17px,2.2vw,20px);font-weight:500;color:var(--brand);margin:0 0 16px}
+.hero .intro{font-size:17px;color:var(--muted);max-width:56ch;margin:0 0 26px}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.facts{display:flex;flex-wrap:wrap;gap:22px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+.facts div{display:flex;flex-direction:column}
+.facts b{font-size:22px;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.facts span{font-size:13.5px;color:var(--muted)}
+.portrait{position:relative;justify-self:center;width:min(360px,100%);aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:var(--brand);box-shadow:var(--shadow)}
+.portrait img{width:100%;height:100%;object-fit:cover}
+.portrait .mono{position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:min(120px,30vw);font-weight:800;letter-spacing:-.04em}
+.portrait .tag{position:absolute;left:16px;right:16px;bottom:16px;background:var(--surface);color:var(--ink);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:14px}
+.portrait .tag i{width:10px;height:10px;border-radius:50%;background:#2BB673;flex:none;box-shadow:0 0 0 4px rgba(43,182,115,.2)}
+@media (max-width:820px){.portrait{width:min(260px,70%);aspect-ratio:1;border-radius:50%}.portrait .tag{display:none}.hero-grid>.portrait{order:-1;justify-self:start}}
+
+/* dự án */
+section{scroll-margin-top:70px}
+.sec{padding-block:48px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.sec-head h2{margin:0;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
+.sec-head p{margin:6px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.card .cover{aspect-ratio:16/10;background:var(--brand-soft);position:relative;overflow:hidden}
+.card .cover img{width:100%;height:100%;object-fit:cover}
+.card .cover .ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:
+  linear-gradient(160deg,transparent 40%,rgba(0,0,0,.06)),repeating-linear-gradient(135deg,transparent 0 22px,color-mix(in srgb,var(--brand) 8%,transparent) 22px 23px)}
+.card .cover .ph b{font-size:26px;font-weight:800;color:var(--brand);letter-spacing:-.02em;line-height:1.1}
+.card .chip{position:absolute;top:14px;left:14px;background:var(--surface);color:var(--ink);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px}
+.card .body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{margin:0;font-size:20px;letter-spacing:-.01em;line-height:1.25}
+.card .loc{display:flex;gap:6px;align-items:flex-start;font-size:14.5px;color:var(--muted)}
+.card .loc svg{width:16px;height:16px;flex:none;margin-top:3px}
+.card .desc{margin:2px 0 6px;font-size:15px;color:var(--ink);opacity:.9}
+.card .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:20px;padding:36px 20px;text-align:center;color:var(--muted)}
+.skel{height:340px;border-radius:20px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;animation:sk 1.4s ease-in-out infinite}
+@keyframes sk{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+
+/* form */
+.lead{background:var(--brand);color:var(--brand-ink);border-radius:28px;padding:clamp(24px,5vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:820px){.lead{grid-template-columns:1fr}}
+.lead h2{margin:0 0 10px;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
+.lead p{margin:0;opacity:.85}
+.lead ul{margin:18px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.lead li{display:flex;gap:10px;align-items:flex-start;opacity:.92}
+.lead li::before{content:"";width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:var(--brand-ink);opacity:.9;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/14px no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/14px no-repeat}
+form.f{background:var(--surface);color:var(--ink);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.f label{font-size:13.5px;font-weight:600;color:var(--muted)}
+.f .fld{display:flex;flex-direction:column;gap:5px}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;-webkit-appearance:none;appearance:none}
+.f textarea{min-height:84px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--brand);outline-offset:0;border-color:var(--brand)}
+.f .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.f .err{color:var(--danger);font-size:14px;margin:0}
+.f .note{font-size:12.5px;color:var(--muted);margin:0}
+.done{background:var(--surface);color:var(--ink);border-radius:20px;padding:28px 20px;text-align:center}
+.done b{display:block;font-size:20px;margin-bottom:6px}
+
+/* chân trang */
+footer{padding-block:40px calc(96px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:14.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+footer a{text-decoration:none}
+footer .links{display:flex;gap:16px;flex-wrap:wrap}
+
+/* thanh liên hệ cố định trên điện thoại */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;gap:10px;padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.dock .btn{flex:1}
+@media (max-width:820px){.dock.on{display:flex}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Về đầu trang"><span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1z"/></svg></span><span id="brandName">Nguyễn Trung</span></a>
+    <nav class="nav" aria-label="Mục chính">
+      <a href="#du-an" class="hide-sm">Dự án</a>
+      <a href="#lien-he" class="hide-sm">Nhận thông tin</a>
+      <a class="btn primary small" id="topCall" href="#lien-he">Liên hệ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow" id="area">Hà Đông, Hà Nội</span>
+        <h1 id="name">Nguyễn Trung</h1>
+        <p class="role" id="title">Chuyên viên tư vấn bất động sản</p>
+        <p class="intro" id="intro">Tư vấn tận tâm, thông tin minh bạch, đồng hành cùng anh chị từ lúc chọn căn đến khi nhận nhà.</p>
+        <div class="cta" id="cta">
+          <a class="btn primary" href="#lien-he">Nhận bảng giá</a>
+          <a class="btn ghost" href="#du-an">Xem dự án</a>
+        </div>
+        <div class="facts" id="facts" hidden></div>
+      </div>
+      <div class="portrait" id="portrait"><div class="mono" id="mono">T</div><div class="tag"><i aria-hidden="true"></i><span>Đang nhận tư vấn hôm nay</span></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="du-an">
+    <div class="wrap">
+      <div class="sec-head"><div><h2>Dự án đang mở bán</h2><p>Bấm vào từng dự án để xem bảng giá, mặt bằng và chính sách bán hàng.</p></div></div>
+      <div class="grid" id="projects"><div class="skel"></div><div class="skel"></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="lien-he">
+    <div class="wrap">
+      <div class="lead">
+        <div>
+          <h2>Nhận bảng giá và chính sách mới nhất</h2>
+          <p>Để lại số điện thoại, em gọi lại tư vấn trong ngày.</p>
+          <ul>
+            <li>Bảng giá, quỹ căn còn trống và chính sách chiết khấu</li>
+            <li>Tính sẵn phương án vay và số tiền trả hằng tháng</li>
+            <li>Đặt lịch đi xem nhà mẫu, dự án thực tế</li>
+          </ul>
+        </div>
+        <form class="f" id="leadForm" novalidate>
+          <div class="fld"><label for="lf-name">Họ tên</label><input id="lf-name" name="name" autocomplete="name" placeholder="Nguyễn Văn An" required></div>
+          <div class="fld"><label for="lf-phone">Số điện thoại</label><input id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0912 345 678" required></div>
+          <div class="fld"><label for="lf-project">Dự án quan tâm</label><select id="lf-project" name="project"><option value="">Chưa chọn</option></select></div>
+          <div class="fld"><label for="lf-msg">Anh chị cần tư vấn gì? <span style="font-weight:400">(không bắt buộc)</span></label><textarea id="lf-msg" name="message" placeholder="Tài chính khoảng 15 tỷ, cần căn mặt tiền"></textarea></div>
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="err" id="lf-err" hidden></p>
+          <button class="btn primary" type="submit" id="lf-btn">Gửi thông tin</button>
+          <p class="note">Thông tin chỉ dùng để liên hệ tư vấn, không chia sẻ cho bên thứ ba.</p>
+        </form>
+        <div class="done" id="lf-done" hidden><b>Đã nhận thông tin</b><span>Cảm ơn anh chị, em sẽ gọi lại sớm.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--ink)" id="footName">Nguyễn Trung</b><br><span id="footTitle">Chuyên viên tư vấn bất động sản</span></div>
+    <div class="links" id="footLinks"></div>
+  </div>
+</footer>
+
+<div class="dock" id="dock"></div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbxKpu-fw4o_bI0DOFLLAmE2ox2Boh5DwdWjSgrKtYWHd7fPn3hKvgjgT-A9RylTqdOB/exec";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const digits = p => { let d=String(p||"").replace(/\D/g,""); if(d.startsWith("84")&&d.length>=11) d="0"+d.slice(2); return d; };
+const fmtPhone = p => { const d=digits(p); return d.length===10 ? d.replace(/(\d{4})(\d{3})(\d{3})/,"$1 $2 $3") : d; };
+const safeUrl = u => /^https?:\/\//i.test(String(u||"").trim()) ? String(u).trim() : "";
+// link ảnh Google Drive → link hiển thị trực tiếp
+function img(u){ u=safeUrl(u); const m=u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/); return m ? `https://lh3.googleusercontent.com/d/${m[1]}=w1200` : u; }
+const ICON = {
+  phone:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.6 1.3 4.9 3.4 6.5L5 21.5l3.7-1.9c1 .3 2.1.4 3.3.4 5.5 0 10-3.9 10-8.7S17.5 3 12 3z"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
+};
+let PROFILE = {}, PROJECTS = [];
+
+function renderProfile(p){
+  PROFILE=p;
+  const name=p.name||"Tư vấn bất động sản";
+  document.title = `${name} · ${p.title||"Tư vấn bất động sản"}`;
+  ["name","brandName","footName"].forEach(id=>$(id).textContent=name);
+  $("title").textContent=p.title||""; $("footTitle").textContent=p.title||"";
+  $("area").textContent=p.area||""; $("area").hidden=!p.area;
+  $("intro").textContent=p.intro||""; $("intro").hidden=!p.intro;
+  const last=name.trim().split(/\s+/).pop()||"?"; $("mono").textContent=last.charAt(0).toUpperCase();
+  const photo=img(p.photo);
+  if(photo){ const im=new Image(); im.alt=name; im.src=photo; im.onload=()=>{ $("mono").replaceWith(im); }; }
+  const tel=digits(p.phone), zalo=digits(p.zalo||p.phone);
+  const callBtn = tel ? `<a class="btn primary" href="tel:${tel}">${ICON.phone}Gọi ${fmtPhone(tel)}</a>` : `<a class="btn primary" href="#lien-he">Nhận bảng giá</a>`;
+  const zaloBtn = zalo ? `<a class="btn ghost" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">${ICON.chat}Nhắn Zalo</a>` : "";
+  $("cta").innerHTML = callBtn + zaloBtn + `<a class="btn ghost" href="#du-an">Xem dự án</a>`;
+  if(tel){ const t=$("topCall"); t.href=`tel:${tel}`; t.innerHTML=`${ICON.phone}<span>Gọi</span>`; }
+  const dock=$("dock");
+  if(tel||zalo){ dock.innerHTML=(tel?`<a class="btn primary" href="tel:${tel}">${ICON.phone}Gọi ngay</a>`:"")+(zalo?`<a class="btn ghost" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">${ICON.chat}Zalo</a>`:""); dock.classList.add("on"); }
+  const facts=[];
+  if(p.years) facts.push([p.years+" năm","kinh nghiệm"]);
+  if(PROJECTS.length) facts.push([String(PROJECTS.length),"dự án đang bán"]);
+  if(p.area) facts.push([p.area.split(",")[0],"khu vực chính"]);
+  $("facts").innerHTML=facts.map(f=>`<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join(""); $("facts").hidden=!facts.length;
+  const links=[];
+  if(tel) links.push(`<a href="tel:${tel}">${fmtPhone(tel)}</a>`);
+  if(zalo) links.push(`<a href="https://zalo.me/${zalo}" target="_blank" rel="noopener">Zalo</a>`);
+  if(p.email) links.push(`<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`);
+  if(safeUrl(p.facebook)) links.push(`<a href="${esc(safeUrl(p.facebook))}" target="_blank" rel="noopener">Facebook</a>`);
+  $("footLinks").innerHTML=links.join("");
+}
+function renderProjects(list){
+  PROJECTS=list;
+  const box=$("projects");
+  if(!list.length){ box.innerHTML=`<div class="empty">Danh sách dự án đang được cập nhật. Anh chị để lại số điện thoại để nhận thông tin sớm nhất.</div>`; }
+  else box.innerHTML=list.map((p,i)=>{
+    const cover=img(p.image), link=safeUrl(p.link);
+    return `<article class="card">
+      <div class="cover">${cover?`<img src="${esc(cover)}" alt="Phối cảnh ${esc(p.name)}" loading="lazy" onerror="this.remove()">`:""}
+        ${cover?"":`<div class="ph"><b>${esc(p.name)}</b></div>`}${p.type?`<span class="chip">${esc(p.type)}</span>`:""}</div>
+      <div class="body">
+        <h3>${esc(p.name)}</h3>
+        ${p.location?`<div class="loc">${ICON.pin}<span>${esc(p.location)}</span></div>`:""}
+        ${p.desc?`<p class="desc">${esc(p.desc)}</p>`:""}
+        <div class="actions">
+          ${link?`<a class="btn primary small" href="${esc(link)}" target="_blank" rel="noopener">Xem thông tin dự án ${ICON.arrow}</a>`:""}
+          <button class="btn ghost small" type="button" data-pick="${i}">Nhận bảng giá</button>
+        </div>
+      </div></article>`;}).join("");
+  $("lf-project").innerHTML=`<option value="">Chưa chọn</option>`+list.map(p=>`<option>${esc(p.name)}</option>`).join("");
+}
+$("projects").addEventListener("click", e=>{
+  const b=e.target.closest("[data-pick]"); if(!b) return;
+  $("lf-project").value=PROJECTS[+b.dataset.pick].name;
+  $("lien-he").scrollIntoView(); setTimeout(()=>$("lf-name").focus({preventScroll:true}),400);
+});
+
+async function load(){
+  let data=null;
+  try{ data=JSON.parse(localStorage.getItem("site-cache")||"null"); }catch(e){}
+  if(data){ renderProjects(data.projects||[]); renderProfile(data.profile||{}); }
+  try{
+    const r=await fetch(API+"?action=site&t="+Date.now(),{cache:"no-store"}); const j=await r.json();
+    if(j.ok){ renderProjects(j.projects||[]); renderProfile(j.profile||{}); try{ localStorage.setItem("site-cache",JSON.stringify(j)); }catch(e){} return; }
+  }catch(e){}
+  if(!data){ renderProjects([]); renderProfile({name:"Nguyễn Trung",title:"Chuyên viên tư vấn bất động sản",area:"Hà Đông, Hà Nội"}); }
+}
+
+$("leadForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target), err=$("lf-err"), btn=$("lf-btn");
+  const name=String(f.get("name")||"").trim(), phone=digits(f.get("phone"));
+  err.hidden=true;
+  if(!name){ err.textContent="Anh chị nhập giúp họ tên."; err.hidden=false; $("lf-name").focus(); return; }
+  if(!/^0\d{9,10}$/.test(phone)){ err.textContent="Số điện thoại chưa đúng, anh chị kiểm tra lại giúp em."; err.hidden=false; $("lf-phone").focus(); return; }
+  btn.disabled=true; btn.textContent="Đang gửi…";
+  try{
+    const r=await fetch(API,{method:"POST",body:JSON.stringify({action:"lead",name,phone,project:f.get("project"),message:f.get("message"),website:f.get("website")})});
+    const j=await r.json();
+    if(!j.ok) throw new Error(j.error);
+    e.target.hidden=true; $("lf-done").hidden=false;
+  }catch(x){
+    err.textContent = PROFILE.phone ? `Chưa gửi được. Anh chị gọi trực tiếp ${fmtPhone(PROFILE.phone)} giúp em.` : "Chưa gửi được, anh chị thử lại sau ít phút.";
+    err.hidden=false;
+  }finally{ btn.disabled=false; btn.textContent="Gửi thông tin"; }
+});
+load();
+</script>
+</body>
+</html>
