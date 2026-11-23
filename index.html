@@ -140,11 +140,16 @@ section{scroll-margin-top:74px}
 .card .more svg,.pd .vids svg{width:15px;height:15px;flex:none}
 
 /* hộp chi tiết dự án */
-dialog.pd{border:0;padding:0;width:min(920px,100%);max-height:min(92vh,940px);background:#fff;color:var(--ink);box-shadow:0 30px 70px -20px rgba(0,0,0,.45)}
-dialog.pd::backdrop{background:rgba(11,0,58,.55)}
-@media (max-width:640px){dialog.pd{max-height:100%;height:100%;max-width:100%}}
-.pd .pd-in{display:flex;flex-direction:column;max-height:inherit;height:100%}
-.pd .pd-img{position:relative;aspect-ratio:16/9;background:var(--soft);flex:none}
+dialog.pd{border:0;padding:0;margin:0;width:100%;height:100%;max-width:100%;max-height:100%;background:#fff;color:var(--ink)}
+dialog.pd::backdrop{background:#fff}
+.pd .pd-in{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pd .pd-bar{position:sticky;top:0;z-index:2;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);padding-top:env(safe-area-inset-top,0px)}
+.pd .pd-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
+.pd .back{display:inline-flex;align-items:center;gap:6px;border:0;background:none;font:inherit;font-weight:700;font-size:14px;text-transform:uppercase;color:var(--navy);cursor:pointer;padding:8px 0}
+.pd .pd-img{position:relative;width:100%;aspect-ratio:21/9;max-height:70vh;background:var(--soft)}
+@media (max-width:760px){.pd .pd-img{aspect-ratio:4/3}}
+.pd .pd-body{max-width:900px;margin:0 auto;padding:28px 16px calc(110px + env(safe-area-inset-bottom,0px))!important;overflow:visible!important}
+.pd .acts .btn{white-space:normal;text-align:center}
 .pd .pd-img img{width:100%;height:100%;object-fit:cover}
 .pd .x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:24px;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .pd .pd-body{padding:24px clamp(16px,4vw,36px) calc(28px + env(safe-area-inset-bottom,0px));overflow-y:auto;display:flex;flex-direction:column;gap:16px}
@@ -394,7 +399,8 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
 <div class="dock" id="dock"></div>
 
 <dialog class="pd" id="pd" aria-labelledby="pdTitle"><div class="pd-in">
-  <div class="pd-img"><img id="pdImg" alt=""><button class="x" type="button" id="pdClose" aria-label="Đóng">×</button></div>
+  <div class="pd-bar"><div class="wrap"><button class="back" type="button" id="pdClose">← Tất cả dự án</button><span id="pdBarActs" style="display:flex;gap:8px"></span></div></div>
+  <div class="pd-img"><img id="pdImg" alt=""></div>
   <div class="pd-body">
     <h3 id="pdTitle"></h3>
     <p class="sub" id="pdSub1">Tổng quan dự án</p>
@@ -403,6 +409,8 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
     <p class="desc" id="pdDesc"></p>
     <div class="vids" id="pdVids"></div>
     <div class="acts" id="pdActs"></div>
+    <p class="sub" style="margin-top:28px">Dự án khác đang phân phối</p>
+    <div class="grid" id="pdOthers"></div>
   </div></div></dialog>
 
 <script>
@@ -456,8 +464,7 @@ function renderProfile(p){
   if(p.email) cl.push(`<a href="mailto:${esc(p.email)}"><i>${I.mail}</i><span><small>Email</small><b>${esc(p.email)}</b></span></a>`);
   if(p.area) cl.push(`<a href="#du-an"><i>${I.pin}</i><span><small>Khu vực</small><b>${esc(p.area)}</b></span></a>`);
   $("contactList").innerHTML=cl.join("");
-  const so=[]; if(safeUrl(p.facebook)) so.push(["Facebook",p.facebook]); if(safeUrl(p.tiktok)) so.push(["TikTok",p.tiktok]); if(safeUrl(p.ghub)) so.push(["Trang G-Hub",p.ghub]);
-  $("socials").innerHTML=so.map(([t,u])=>`<a class="btn line sm" href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(t)} ${I.arrow}</a>`).join("");
+  const so=[]; if(safeUrl(p.facebook)) so.push(["Facebook",p.facebook]); if(safeUrl(p.tiktok)) so.push(["TikTok",p.tiktok]);  $("socials").innerHTML=so.map(([t,u])=>`<a class="btn line sm" href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(t)} ${I.arrow}</a>`).join("");
   if(safeUrl(p.tiktok)){ const t=$("tiktokAll"); t.href=safeUrl(p.tiktok); t.hidden=false; }
   const pl=pairs(p.pledge); $("pledge").innerHTML=pl.map(([t,d],i)=>`<div><span class="n">0${i+1}</span><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join(""); $("cam-ket").hidden=!pl.length;
   const cr=pairs(p.creed); $("values").innerHTML=cr.map(([t,d])=>`<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join(""); $("values").hidden=!cr.length;
@@ -510,7 +517,7 @@ function renderVideos(list){
 
 /* chi tiết dự án */
 const pd=$("pd");
-function openProject(i){
+function openProject(i, fromRoute){
   const p=PROJECTS[i]; if(!p) return;
   $("pdImg").src=img(p.image)||""; $("pdImg").alt="Phối cảnh "+p.name; $("pdTitle").textContent=p.name;
   const f=[["Tên dự án",p.name],["Vị trí",p.location],["Khu vực",regionOf(p)],["Loại sản phẩm",p.type],["Pháp lý",p.legal],["Bàn giao",p.handover]].filter(x=>x[1]);
@@ -519,19 +526,30 @@ function openProject(i){
   $("pdDesc").textContent=p.desc||"Liên hệ để nhận thông tin chi tiết về dự án, bảng hàng và chính sách bán hàng mới nhất.";
   const vids=VIDEOS.filter(v=>String(v.project).toLowerCase()===p.name.toLowerCase());
   $("pdVids").innerHTML=vids.map(v=>`<a href="${esc(safeUrl(v.url))}" target="_blank" rel="noopener">${I.play}${esc(v.title)}</a>`).join("");
-  const link=safeUrl(p.link);
-  $("pdActs").innerHTML=`<a class="btn gold" href="#nhan-thong-tin" data-proj="${esc(p.name)}">Đăng ký nhận bảng giá</a>`+(link?`<a class="btn line" href="${esc(link)}" target="_blank" rel="noopener">Xem thông tin đầy đủ ${I.arrow}</a>`:"")+(P.phone?`<a class="btn line" href="tel:${digits(P.phone)}">${I.phone}Gọi tư vấn</a>`:"");
-  if(pd.showModal) pd.showModal(); else pd.setAttribute("open","");
-  pd.querySelector(".pd-body").scrollTop=0;
+  const tel=digits(P.phone), zalo=digits(P.zalo||P.phone);
+  $("pdActs").innerHTML=`<a class="btn gold" href="#nhan-thong-tin" data-proj="${esc(p.name)}">Đăng ký nhận bảng giá ${esc(p.name)}</a>`+(tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:"")+(zalo?`<a class="btn line" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">Nhắn Zalo</a>`:"");
+  $("pdBarActs").innerHTML=tel?`<a class="btn gold sm" href="tel:${tel}">${I.phone}Gọi ngay</a>`:"";
+  const others=PROJECTS.map((q,j)=>({q,j})).filter(x=>x.j!==i);
+  $("pdOthers").innerHTML=others.map(({q,j})=>`<button class="card" type="button" data-i="${j}">${img(q.image)?`<img src="${esc(img(q.image))}" alt="" loading="lazy">`:`<div class="ph"></div>`}<div class="txt"><h3>${esc(q.name)}</h3>${q.location?`<div class="loc">${I.pin}<span>${esc(q.location)}</span></div>`:""}</div></button>`).join("");
+  if(!pd.open){ if(pd.showModal) pd.showModal(); else pd.setAttribute("open",""); }
+  pd.querySelector(".pd-in").scrollTop=0;
+  const h="#da/"+slug(p.name); if(!fromRoute && location.hash!==h) history.pushState(null,"",h);
+  document.title=p.name+" · "+(P.name||"Tư vấn bất động sản");
 }
-function closeProject(){ if(pd.close) pd.close(); else pd.removeAttribute("open"); }
+const slug=s=>String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/gi,"d").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+function hideProject(){ if(pd.open){ if(pd.close) pd.close(); else pd.removeAttribute("open"); } if(P.name) document.title=`${P.name} · ${P.title||"Tư vấn bất động sản"}`; }
+function closeProject(){ if(/^#da\//.test(location.hash)) history.back(); else hideProject(); }
+function route(){ const m=location.hash.match(/^#da\/(.+)$/); if(m){ const i=PROJECTS.findIndex(p=>slug(p.name)===decodeURIComponent(m[1])); if(i>=0) return openProject(i,true); } hideProject(); }
+addEventListener("popstate", route);
+pd.addEventListener("cancel", e=>{ e.preventDefault(); closeProject(); });
+$("pdOthers").addEventListener("click", e=>{ const c=e.target.closest("[data-i]"); if(c) openProject(+c.dataset.i); });
 $("projects").addEventListener("click", e=>{ const c=e.target.closest("[data-i]"); if(c) openProject(+c.dataset.i); });
 $("footProj").addEventListener("click", e=>{ const c=e.target.closest("[data-i]"); if(c){ e.preventDefault(); openProject(+c.dataset.i); } });
 $("filters").addEventListener("click", e=>{ const b=e.target.closest("[data-r]"); if(b){ region=b.dataset.r; renderProjects(PROJECTS); } });
-$("pdClose").addEventListener("click", closeProject);
+$("pdClose").addEventListener("click", ()=>{ hideProject(); history.replaceState(null,"","#du-an"); $("du-an").scrollIntoView(); });
 pd.addEventListener("click", e=>{ if(e.target===pd) closeProject(); });
 document.addEventListener("click", e=>{
-  const a=e.target.closest("[data-proj]"); if(a){ $("lf-project").value=a.dataset.proj; closeProject(); }
+  const a=e.target.closest("[data-proj]"); if(a){ e.preventDefault(); $("lf-project").value=a.dataset.proj; hideProject(); history.replaceState(null,"","#nhan-thong-tin"); $("nhan-thong-tin").scrollIntoView(); }
   const n=e.target.closest("[data-need]"); if(n){ document.querySelectorAll('#needs input').forEach(i=>{ if(i.value===n.dataset.need) i.checked=true; }); }
 });
 
@@ -557,7 +575,7 @@ function observe(){
 const top_=$("top"); const onScroll=()=>top_.classList.toggle("solid", scrollY>60); addEventListener("scroll", onScroll, {passive:true}); onScroll();
 
 /* tải dữ liệu từ Google Sheet */
-function apply(d){ renderProjects(d.projects||[]); renderVideos(d.videos||[]); renderProfile(d.profile||{}); observe(); }
+function apply(d){ renderProjects(d.projects||[]); renderVideos(d.videos||[]); renderProfile(d.profile||{}); observe(); route(); }
 async function load(){
   let cache=null; try{ cache=JSON.parse(localStorage.getItem("site-cache-v2")||"null"); }catch(e){}
   if(cache) apply(cache);
