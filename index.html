@@ -202,6 +202,8 @@ dialog.lb::backdrop{background:#0b0b0f}
 .lb-nav.prev{left:8px}.lb-nav.next{right:8px}
 .lb.zoomed .lb-nav{opacity:.25}
 .lb-bar{position:absolute;left:0;right:0;bottom:0;padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;gap:12px;font-size:14px;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,0));pointer-events:none;padding-right:120px}
+.lb-orig{position:absolute;left:12px;top:calc(14px + env(safe-area-inset-top,0px));z-index:2;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:10px 14px}
+.lb-orig[hidden]{display:none}
 .lb-zoom{position:absolute;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;z-index:2}
 .lb-zoom button{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:22px;cursor:pointer}
 .pd .pd-img img{width:100%;height:100%;object-fit:cover}
@@ -475,6 +477,7 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
   <button class="lb-nav prev" type="button" id="lbPrev" aria-label="Ảnh trước">‹</button>
   <button class="lb-nav next" type="button" id="lbNext" aria-label="Ảnh sau">›</button>
   <div class="lb-bar"><span id="lbCap"></span><span id="lbCount"></span></div>
+  <a class="lb-orig" id="lbOrig" href="#" target="_blank" rel="noopener" hidden>Mở bản PDF đầy đủ ↗</a>
   <div class="lb-zoom"><button type="button" id="lbOut" aria-label="Thu nhỏ">−</button><button type="button" id="lbIn" aria-label="Phóng to">+</button></div>
 </dialog>
 
@@ -621,12 +624,14 @@ document.addEventListener("click", e=>{
 
 /* nội dung chi tiết: tiện ích kèm ảnh, mặt bằng theo nhóm, thư viện ảnh */
 const parseRows = s => lines(s).map(l => { const p = l.split(/\s*\|\s*/); const last = (p[p.length-1]||"").trim(); const u = /^https?:\/\//i.test(last) ? p.pop().trim() : ""; return { u, parts: p.map(x=>x.trim()).filter(Boolean) }; });
-const thumb = (u, w=520) => /^https:\/\/(cdn|server)\.g-hub\.vn\//i.test(u) ? `https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&output=webp&q=80` : u;
+const thumb = (u, w=520) => /^https:\/\/lh3\.googleusercontent\.com\/d\//.test(u) ? u.replace(/=w\d+$/, "=w"+w) : /^https:\/\/(cdn|server)\.g-hub\.vn\//i.test(u) ? `https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&output=webp&q=80` : u;
+const big = u => /^https:\/\/lh3\.googleusercontent\.com\/d\//.test(u) ? u.replace(/=w\d+$/, "=w2600") : u;
+const pdfOrig = u => /#pdf$/.test(u) ? u.replace(/#pdf$/, "") : "";
 const ERR = `onerror="if(this.dataset.f){this.closest('figure')&&this.closest('figure').remove()}else{this.dataset.f=1;this.src=this.dataset.full}"`;
 const isPdf = u => /\.pdf(\?|$)/i.test(u);
 const tile = (u, cap) => isPdf(u)
   ? `<a class="pdf" href="${esc(u)}" target="_blank" rel="noopener"><i>PDF</i><span>${esc(cap||"Tài liệu")}</span><small>Bấm để xem · phóng to bằng 2 ngón</small></a>`
-  : `<figure class="tile"><button type="button" data-lb="${esc(img(u))}" data-cap="${esc(cap||"")}" aria-label="Phóng to ${esc(cap||"ảnh")}"><img src="${esc(thumb(img(u)))}" data-full="${esc(img(u))}" alt="${esc(cap||"")}" loading="lazy" ${ERR}></button>${cap?`<figcaption>${esc(cap)}</figcaption>`:""}</figure>`;
+  : `<figure class="tile"><button type="button" data-lb="${esc(big(img(u)))}" data-cap="${esc(cap||"")}" data-orig="${esc(pdfOrig(u))}" aria-label="Phóng to ${esc(cap||"ảnh")}"><img src="${esc(thumb(img(u)))}" data-full="${esc(img(u))}" alt="${esc(cap||"")}" loading="lazy" ${ERR}></button>${cap?`<figcaption>${esc(cap)}</figcaption>`:""}</figure>`;
 let PLAN_GROUPS = [], planTab = 0;
 function renderPlanGroup(){
   const g = PLAN_GROUPS[planTab]; if(!g){ $("pdPlanImgs").innerHTML=""; return; }
@@ -668,13 +673,13 @@ const LB = { list: [], i: 0, s: 1, x: 0, y: 0 };
 const lbApply = () => { lbImg.style.transform = `translate(${LB.x}px,${LB.y}px) scale(${LB.s})`; lb.classList.toggle("zoomed", LB.s>1.01); };
 function lbClamp(){ const r = lbStage.getBoundingClientRect(), w = lbImg.offsetWidth*LB.s, h = lbImg.offsetHeight*LB.s; const mx = Math.max(0,(w-r.width)/2), my = Math.max(0,(h-r.height)/2); LB.x = Math.min(mx, Math.max(-mx, LB.x)); LB.y = Math.min(my, Math.max(-my, LB.y)); }
 function lbZoom(ns, cx=0, cy=0){ ns = Math.min(6, Math.max(1, ns)); const k = ns/LB.s; LB.x = cx-(cx-LB.x)*k; LB.y = cy-(cy-LB.y)*k; LB.s = ns; if(ns===1){ LB.x=0; LB.y=0; } lbClamp(); lbApply(); }
-function lbShow(){ const it = LB.list[LB.i]; LB.s=1; LB.x=0; LB.y=0; lbApply(); lbImg.src = it.u; lbImg.alt = it.c||""; $("lbCap").textContent = it.c||""; $("lbCount").textContent = LB.list.length>1 ? `${LB.i+1} / ${LB.list.length}` : ""; $("lbPrev").hidden = $("lbNext").hidden = LB.list.length<2; }
+function lbShow(){ const it = LB.list[LB.i]; LB.s=1; LB.x=0; LB.y=0; lbApply(); lbImg.src = it.u; lbImg.alt = it.c||""; $("lbCap").textContent = it.c||""; $("lbCount").textContent = LB.list.length>1 ? `${LB.i+1} / ${LB.list.length}` : ""; $("lbPrev").hidden = $("lbNext").hidden = LB.list.length<2; const o=$("lbOrig"); o.hidden=!it.o; if(it.o) o.href=it.o; }
 function lbOpen(list, i){ LB.list = list; LB.i = i; lbShow(); if(!lb.open){ if(lb.showModal) lb.showModal(); else lb.setAttribute("open",""); } }
 const lbGo = d => { if(LB.list.length<2) return; LB.i = (LB.i + d + LB.list.length) % LB.list.length; lbShow(); };
 const lbClose = () => { if(lb.close) lb.close(); else lb.removeAttribute("open"); };
 document.addEventListener("click", e => { const b = e.target.closest("[data-lb]"); if(!b) return; e.preventDefault();
   const box = b.closest("[data-lbg]") || document; const all = [...box.querySelectorAll("[data-lb]")];
-  lbOpen(all.map(x=>({u:x.dataset.lb, c:x.dataset.cap})), Math.max(0, all.indexOf(b))); });
+  lbOpen(all.map(x=>({u:x.dataset.lb, c:x.dataset.cap, o:x.dataset.orig||""})), Math.max(0, all.indexOf(b))); });
 $("lbX").addEventListener("click", lbClose); $("lbPrev").addEventListener("click", ()=>lbGo(-1)); $("lbNext").addEventListener("click", ()=>lbGo(1));
 $("lbIn").addEventListener("click", ()=>lbZoom(LB.s*1.6)); $("lbOut").addEventListener("click", ()=>lbZoom(LB.s/1.6));
 lb.addEventListener("keydown", e => { if(e.key==="ArrowLeft") lbGo(-1); if(e.key==="ArrowRight") lbGo(1); if(e.key==="+"||e.key==="=") lbZoom(LB.s*1.4); if(e.key==="-") lbZoom(LB.s/1.4); });
