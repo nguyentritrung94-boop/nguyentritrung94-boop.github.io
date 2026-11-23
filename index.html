@@ -267,9 +267,7 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
   <div class="wrap">
     <a class="brand" href="#trang-chu" aria-label="Về đầu trang"><span class="ini" id="brandIni">T</span><span id="brandName">Nguyễn Trí Trung</span></a>
     <nav class="menu" aria-label="Mục chính">
-      <a class="m" href="#gioi-thieu">Giới thiệu</a>
       <a class="m" href="#du-an">Dự án</a>
-      <a class="m" href="#video">Video</a>
       <a class="m" href="#tinh-vay">Tính vay</a>
       <a class="btn gold sm" href="#nhan-thong-tin">Nhận bảng giá</a>
     </nav>
@@ -293,21 +291,6 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
     </div>
   </section>
 
-  <section class="sec" id="gioi-thieu">
-    <div class="wrap about">
-      <div class="portrait reveal" id="portrait"><div class="ini" id="portraitIni">T</div>
-        <div class="badge"><i aria-hidden="true"></i><div><b>Đang nhận tư vấn</b><span>Phản hồi trong giờ làm việc</span></div></div></div>
-      <div class="reveal">
-        <span class="kicker">Giới thiệu</span>
-        <h2>Xin chào, tôi là <em class="g" id="aboutName">Trí Trung</em></h2>
-        <p class="bio" id="bio"></p>
-        <ul class="skills" id="skills"></ul>
-        <div class="contact-list" id="contactList"></div>
-        <div class="socials" id="socials"></div>
-      </div>
-    </div>
-  </section>
-
   <section class="sec alt" id="cam-ket">
     <div class="wrap">
       <div class="head reveal"><div><span class="kicker">Cam kết</span><h2 id="pledgeTitle">Niềm tin của Quý khách là <em class="g">trách nhiệm của tôi</em></h2></div></div>
@@ -323,15 +306,6 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
         <div class="filters" id="filters" role="group" aria-label="Lọc theo khu vực"></div>
       </div>
       <div class="grid" id="projects"></div>
-    </div>
-  </section>
-
-  <section class="sec alt" id="video">
-    <div class="wrap">
-      <div class="head reveal"><div><span class="kicker">Video thực tế</span><h2>Đi thực tế <em class="g">từng toà, từng trục căn</em></h2>
-        <p class="lead">Tôi quay lại cho anh chị xem trước, đỡ mất công đi.</p></div>
-        <a class="btn line sm" id="tiktokAll" href="#" target="_blank" rel="noopener" hidden>Xem thêm trên TikTok ↗</a></div>
-      <div class="vgrid" id="videos"></div>
     </div>
   </section>
 
@@ -434,7 +408,7 @@ footer .small{grid-column:1/-1;font-size:12.5px;border-top:1px solid rgba(255,25
 <script>
 document.documentElement.classList.add("js");
 const API = "https://script.google.com/macros/s/AKfycbxKpu-fw4o_bI0DOFLLAmE2ox2Boh5DwdWjSgrKtYWHd7fPn3hKvgjgT-A9RylTqdOB/exec";
-const $ = id => document.getElementById(id);
+const $ = id => document.getElementById(id) || document.createElement("div");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const digits = p => { let d=String(p||"").replace(/\D/g,""); if(d.startsWith("84")&&d.length>=11) d="0"+d.slice(2); return d; };
 const fmtPhone = p => { const d=digits(p); return d.length===10 ? d.replace(/(\d{4})(\d{3})(\d{3})/,"$1 $2 $3") : d; };
@@ -522,7 +496,7 @@ function renderProjects(list){
   observe(); renderStats();
 }
 function renderVideos(list){
-  VIDEOS=list; const box=$("videos");
+  VIDEOS=[]; const box=document.getElementById("videos"); if(!box) return;
   if(!list.length){ $("video").hidden=true; return; } $("video").hidden=false;
   box.innerHTML=list.map(v=>{
     const id=ytId(v.url), proj=PROJECTS.find(p=>p.name.toLowerCase()===String(v.project).toLowerCase());
