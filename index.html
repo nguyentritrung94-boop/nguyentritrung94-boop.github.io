@@ -3,195 +3,400 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Nguyễn Trung · Tư vấn bất động sản</title>
-<meta name="description" content="Tư vấn các dự án bất động sản đang mở bán tại Hà Đông, Hà Nội. Thông tin dự án, bảng giá và hỗ trợ vay.">
-<meta property="og:title" content="Nguyễn Trung · Tư vấn bất động sản">
-<meta property="og:description" content="Thông tin các dự án đang mở bán. Để lại số điện thoại để nhận bảng giá mới nhất.">
+<title>Nguyễn Trí Trung · Chuyên viên kinh doanh bất động sản</title>
+<meta name="description" content="Nguyễn Trí Trung – Chuyên viên kinh doanh Galaxy Group. Tư vấn các dự án căn hộ, thấp tầng tại Hà Nội và Hưng Yên: Iconia Lakeside, Hanoi Season Garden, The Magnolia, Masteri, Lumière…">
+<meta property="og:title" content="Nguyễn Trí Trung · Tư vấn bất động sản">
+<meta property="og:description" content="Uy tín tạo giá trị – Tận tâm dựng niềm tin. Xem các dự án đang mở bán và nhận bảng giá mới nhất.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0E5A47">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E5A47'/%3E%3Cpath d='M14 34 32 18l18 16v14a2 2 0 0 1-2 2H38V38H26v12H16a2 2 0 0 1-2-2z' fill='%23fff'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0B2A24">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B2A24'/%3E%3Cpath d='M14 34 32 18l18 16v14a2 2 0 0 1-2 2H38V38H26v12H16a2 2 0 0 1-2-2z' fill='%23D9B26A'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap">
 <style>
-/* Bố cục: một trang cuộn — đầu trang giới thiệu, lưới dự án, form để lại số, chân trang liên hệ */
+/* Bố cục: trang cuộn dài kiểu tạp chí bất động sản — ảnh bìa toàn màn hình, giới thiệu, cam kết, lưới dự án (mở chi tiết), video, quan điểm, quy trình, tính vay, form */
 :root{
-  --bg:#F2F5F3; --surface:#FFFFFF; --ink:#12221D; --muted:#5A6B65; --line:#DCE4E0;
-  --brand:#0E5A47; --brand-ink:#FFFFFF; --brand-soft:#DCEEE7; --brass:#A8772E; --brass-soft:#F5EAD7;
-  --danger:#B42318; --shadow:0 18px 40px -22px rgba(14,40,32,.35);
+  --bg:#F5F3EE; --surface:#FFFFFF; --ink:#13201C; --muted:#5D6B66; --line:#E1DDD3;
+  --forest:#0B2A24; --forest-2:#123A32; --gold:#B88A3E; --gold-soft:#F3E8D3; --mint:#DCEDE6;
+  --on-dark:#F4F1EA; --on-dark-muted:#B9C6C0; --danger:#B42318;
+  --shadow:0 24px 50px -30px rgba(11,42,36,.45);
+  --display:"Playfair Display",Georgia,"Times New Roman",serif;
   --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root{
-  --bg:#0D1513; --surface:#16211E; --ink:#E7EFEC; --muted:#97A8A2; --line:#26342F;
-  --brand:#4CC39C; --brand-ink:#05231A; --brand-soft:#15362C; --brass:#E2B56A; --brass-soft:#3A2C14;
-  --danger:#F28B80; --shadow:0 18px 40px -22px rgba(0,0,0,.7); color-scheme:dark}}
+  --bg:#0C1311; --surface:#141E1B; --ink:#ECEFEA; --muted:#9DAAA4; --line:#24312C;
+  --forest:#081F1A; --forest-2:#0F2E27; --gold:#D9B26A; --gold-soft:#33291A; --mint:#16322A;
+  --shadow:0 24px 50px -30px rgba(0,0,0,.8); color-scheme:dark}}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 img{max-width:100%;display:block}
 [hidden]{display:none!important}
-.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+h1,h2,h3{text-wrap:balance}
+em.g{font-family:var(--display);font-style:italic;font-weight:500;color:var(--gold)}
 
-/* đầu trang */
-.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.01em;min-width:0}
-.brand .dot{width:30px;height:30px;border-radius:9px;background:var(--brand);display:grid;place-items:center;flex:none}
-.brand .dot svg{width:18px;height:18px}
-.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nav{display:flex;align-items:center;gap:6px}
-.nav a{text-decoration:none;font-size:14.5px;font-weight:500;color:var(--muted);padding:8px 10px;border-radius:8px}
-.nav a:hover{color:var(--ink)}
-@media (max-width:640px){.nav .hide-sm{display:none}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:12px;padding:12px 18px;font:inherit;font-weight:600;font-size:15.5px;text-decoration:none;cursor:pointer;transition:transform .15s ease,background .15s ease}
+/* nút */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:999px;padding:13px 22px;font:inherit;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;transition:transform .15s ease,background .2s ease,color .2s ease;white-space:nowrap}
 .btn:active{transform:scale(.98)}
-.btn.primary{background:var(--brand);color:var(--brand-ink)}
-.btn.ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
-.btn.small{padding:8px 14px;font-size:14px;border-radius:10px}
 .btn svg{width:18px;height:18px;flex:none}
+.btn.gold{background:var(--gold);color:#1B1408}
+.btn.gold:hover{background:#C99A4C}
+.btn.light{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.btn.light:hover{background:rgba(255,255,255,.22)}
+.btn.dark{background:var(--forest);color:var(--on-dark)}
+.btn.line{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn.line:hover{border-color:var(--ink)}
+.btn.sm{padding:9px 16px;font-size:14px}
+
+/* thanh trên */
+.top{position:fixed;inset:0 0 auto;z-index:40;padding-top:env(safe-area-inset-top,0px);transition:background .25s ease,box-shadow .25s ease,color .25s ease;color:#fff}
+.top.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);color:var(--ink)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;min-width:0}
+.brand img,.brand .ini{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:none;border:2px solid var(--gold)}
+.brand .ini{display:grid;place-items:center;background:var(--forest);color:var(--gold);font-size:14px}
+.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu{display:flex;align-items:center;gap:2px}
+.menu a{text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 12px;border-radius:999px;opacity:.85}
+.menu a:hover{opacity:1;background:rgba(127,127,127,.12)}
+@media (max-width:900px){.menu a.m{display:none}}
+
+/* ảnh bìa */
+.hero{position:relative;min-height:min(92vh,820px);display:flex;align-items:flex-end;color:#fff;background:var(--forest);overflow:hidden}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:50% 20%;transform:scale(1.04);animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:scale(1.12) translateY(-1.5%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,22,.45) 0%,rgba(8,26,22,.15) 35%,rgba(8,26,22,.85) 78%,rgba(8,26,22,.96) 100%)}
+.hero .wrap{position:relative;z-index:1;width:100%;padding-top:120px;padding-bottom:56px}
+.hero .who{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.hero .who img,.hero .who .ini{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex:none}
+.hero .who .ini{display:grid;place-items:center;background:var(--forest-2);color:var(--gold);font-weight:700;font-size:22px}
+.hero .who small{display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.hero .who b{font-size:16px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,7.2vw,86px);line-height:1.02;letter-spacing:-.01em;margin:0 0 14px;max-width:14ch}
+.hero .slogan{font-size:clamp(17px,2.2vw,21px);color:#E9E4D8;max-width:46ch;margin:0 0 28px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:10px}
+.hero .stats{display:flex;flex-wrap:wrap;gap:12px 36px;margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.2)}
+.hero .stats div{display:flex;flex-direction:column}
+.hero .stats b{font-family:var(--display);font-size:32px;line-height:1.1;color:var(--gold)}
+.hero .stats span{font-size:13.5px;color:var(--on-dark-muted)}
+
+/* mục chung */
+section{scroll-margin-top:72px}
+.sec{padding-block:clamp(56px,9vw,104px)}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor}
+.sec h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.6vw,50px);line-height:1.12;letter-spacing:-.01em;margin:14px 0 12px}
+.lead{color:var(--muted);font-size:17px;max-width:62ch;margin:0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.reveal{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
 
 /* giới thiệu */
-.hero{padding-block:56px 40px}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:48px;align-items:center}
-@media (max-width:820px){.hero-grid{grid-template-columns:1fr;gap:28px}.hero{padding-block:32px 24px}}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);background:var(--brass-soft);padding:6px 12px;border-radius:999px}
-.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;letter-spacing:-.025em;font-weight:800;margin:18px 0 10px;text-wrap:balance}
-.hero .role{font-size:clamp(17px,2.2vw,20px);font-weight:500;color:var(--brand);margin:0 0 16px}
-.hero .intro{font-size:17px;color:var(--muted);max-width:56ch;margin:0 0 26px}
-.cta{display:flex;flex-wrap:wrap;gap:10px}
-.facts{display:flex;flex-wrap:wrap;gap:22px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
-.facts div{display:flex;flex-direction:column}
-.facts b{font-size:22px;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-.facts span{font-size:13.5px;color:var(--muted)}
-.portrait{position:relative;justify-self:center;width:min(360px,100%);aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:var(--brand);box-shadow:var(--shadow)}
+.about{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px);align-items:center}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}}
+.portrait{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/5;background:var(--forest);box-shadow:var(--shadow);max-width:460px}
 .portrait img{width:100%;height:100%;object-fit:cover}
-.portrait .mono{position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:min(120px,30vw);font-weight:800;letter-spacing:-.04em}
-.portrait .tag{position:absolute;left:16px;right:16px;bottom:16px;background:var(--surface);color:var(--ink);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:14px}
-.portrait .tag i{width:10px;height:10px;border-radius:50%;background:#2BB673;flex:none;box-shadow:0 0 0 4px rgba(43,182,115,.2)}
-@media (max-width:820px){.portrait{width:min(260px,70%);aspect-ratio:1;border-radius:50%}.portrait .tag{display:none}.hero-grid>.portrait{order:-1;justify-self:start}}
+.portrait .ini{position:absolute;inset:0;display:grid;place-items:center;color:var(--gold);font-family:var(--display);font-size:120px}
+.portrait .badge{position:absolute;left:16px;bottom:16px;right:16px;background:color-mix(in srgb,var(--surface) 94%,transparent);border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.portrait .badge i{width:10px;height:10px;border-radius:50%;background:#2BB673;box-shadow:0 0 0 5px rgba(43,182,115,.2);flex:none}
+.portrait .badge b{display:block;font-size:14.5px}
+.portrait .badge span{font-size:13px;color:var(--muted)}
+.bio{font-size:17.5px;white-space:pre-line;margin:0 0 22px}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0;list-style:none}
+.skills li{background:var(--mint);color:var(--forest);font-weight:600;font-size:14px;padding:7px 14px;border-radius:999px}
+@media (prefers-color-scheme:dark){.skills li{color:var(--ink)}}
+.contact-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.contact-list a{display:flex;gap:12px;align-items:center;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;min-width:0}
+.contact-list a:hover{border-color:var(--gold)}
+.contact-list i{width:38px;height:38px;border-radius:12px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;flex:none}
+.contact-list i svg{width:18px;height:18px}
+.contact-list small{display:block;font-size:12px;color:var(--muted)}
+.contact-list b{display:block;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.socials{display:flex;gap:10px;flex-wrap:wrap}
+
+/* cam kết */
+.pledge{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.pledge div{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px 22px}
+.pledge b{display:block;font-size:17px;margin:14px 0 6px}
+.pledge p{margin:0;color:var(--muted);font-size:15px}
+.pledge .n{font-family:var(--display);font-size:30px;color:var(--gold);line-height:1}
 
 /* dự án */
-section{scroll-margin-top:70px}
-.sec{padding-block:48px}
-.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
-.sec-head h2{margin:0;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
-.sec-head p{margin:6px 0 0;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
-.card .cover{aspect-ratio:16/10;background:var(--brand-soft);position:relative;overflow:hidden}
-.card .cover img{width:100%;height:100%;object-fit:cover}
-.card .cover .ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:
-  linear-gradient(160deg,transparent 40%,rgba(0,0,0,.06)),repeating-linear-gradient(135deg,transparent 0 22px,color-mix(in srgb,var(--brand) 8%,transparent) 22px 23px)}
-.card .cover .ph b{font-size:26px;font-weight:800;color:var(--brand);letter-spacing:-.02em;line-height:1.1}
-.card .chip{position:absolute;top:14px;left:14px;background:var(--surface);color:var(--ink);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px}
-.card .body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card h3{margin:0;font-size:20px;letter-spacing:-.01em;line-height:1.25}
-.card .loc{display:flex;gap:6px;align-items:flex-start;font-size:14.5px;color:var(--muted)}
-.card .loc svg{width:16px;height:16px;flex:none;margin-top:3px}
-.card .desc{margin:2px 0 6px;font-size:15px;color:var(--ink);opacity:.9}
-.card .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
-.empty{background:var(--surface);border:1px dashed var(--line);border-radius:20px;padding:36px 20px;text-align:center;color:var(--muted)}
-.skel{height:340px;border-radius:20px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;animation:sk 1.4s ease-in-out infinite}
-@keyframes sk{to{background-position:-200% 0}}
-@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:var(--on-dark)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
+@media (max-width:380px){.grid{grid-template-columns:1fr}}
+.card{position:relative;border-radius:24px;overflow:hidden;background:var(--forest);color:#fff;aspect-ratio:4/5;cursor:pointer;box-shadow:var(--shadow);border:0;padding:0;text-align:left;font:inherit;display:block;width:100%}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.card:hover img{transform:scale(1.05)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,22,0) 35%,rgba(8,26,22,.92) 100%)}
+.card .ph{position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--forest) 0 24px,var(--forest-2) 24px 25px)}
+.card .tags{position:absolute;top:16px;left:16px;right:16px;z-index:1;display:flex;flex-wrap:wrap;gap:6px}
+.card .tags span{background:rgba(255,255,255,.92);color:#13201C;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px}
+.card .tags span.gold{background:var(--gold);color:#1B1408}
+.card .txt{position:absolute;left:20px;right:20px;bottom:20px;z-index:1}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.1;margin:0 0 8px;font-weight:700}
+.card .loc{display:flex;gap:6px;font-size:14px;color:#E3DED2;line-height:1.45}
+.card .loc svg{width:16px;height:16px;flex:none;margin-top:2px}
+.card .more{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-weight:600;font-size:14px;color:var(--gold);white-space:nowrap}
+.card .more svg,.pd .vids svg{width:16px;height:16px;flex:none}
+.card h3,.card .loc{text-shadow:0 1px 12px rgba(0,0,0,.35)}
+
+/* hộp chi tiết dự án */
+dialog.pd{border:0;padding:0;width:min(920px,100%);max-height:min(92vh,900px);border-radius:28px;background:var(--surface);color:var(--ink);box-shadow:0 40px 80px -20px rgba(0,0,0,.5)}
+dialog.pd::backdrop{background:rgba(6,18,15,.65);backdrop-filter:blur(4px)}
+@media (max-width:640px){dialog.pd{max-height:100%;height:100%;border-radius:0;max-width:100%}}
+.pd .pd-in{display:flex;flex-direction:column;max-height:inherit;height:100%}
+.pd .pd-img{position:relative;aspect-ratio:16/9;background:var(--forest);flex:none}
+.pd .pd-img img{width:100%;height:100%;object-fit:cover}
+.pd .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center}
+.pd .pd-body{padding:26px clamp(20px,4vw,36px) calc(26px + env(safe-area-inset-bottom,0px));overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.pd h3{font-family:var(--display);font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0}
+.pd .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.pd .facts div{background:var(--bg);border-radius:14px;padding:12px 14px}
+.pd .facts small{display:block;color:var(--muted);font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.pd .facts b{font-size:15px;font-weight:600}
+.pd .desc{white-space:pre-line;margin:0;font-size:16px}
+.pd .acts{display:flex;gap:10px;flex-wrap:wrap}
+.pd .vids{display:flex;gap:10px;flex-wrap:wrap}
+.pd .vids a{display:inline-flex;gap:8px;align-items:center;text-decoration:none;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--gold-soft);color:var(--ink)}
+
+/* video */
+.vgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,260px);gap:16px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.vcard{scroll-snap-align:start;position:relative;aspect-ratio:9/14;border-radius:20px;overflow:hidden;background:var(--forest);color:#fff;text-decoration:none;display:block}
+.vcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.85))}
+.vcard .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;color:#13201C;transition:transform .2s}
+.vcard:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+.vcard .play svg{width:22px;height:22px;margin-left:3px}
+.vcard .src{position:absolute;top:12px;left:12px;z-index:1;font-size:11.5px;font-weight:700;background:rgba(0,0,0,.55);padding:4px 9px;border-radius:999px}
+.vcard .cap{position:absolute;left:14px;right:14px;bottom:14px;z-index:1;font-weight:600;font-size:14.5px;line-height:1.35}
+.vcard .cap small{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-bottom:3px}
+
+/* quan điểm */
+.creed{background:var(--forest);color:var(--on-dark)}
+.creed .quote{font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(28px,4.4vw,52px);line-height:1.2;margin:16px 0 40px;max-width:22ch;color:#fff}
+.creed .quote::before{content:"“";color:var(--gold)}
+.creed .quote::after{content:"”";color:var(--gold)}
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(255,255,255,.12);border-radius:22px;overflow:hidden}
+.values div{background:var(--forest);padding:26px 24px}
+.values b{display:block;color:var(--gold);font-size:18px;margin-bottom:8px}
+.values p{margin:0;color:var(--on-dark-muted);font-size:15px}
+
+/* quy trình */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;counter-reset:s}
+.steps li{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 20px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--display);font-size:38px;color:var(--gold);line-height:1;display:block;margin-bottom:12px}
+.steps b{display:block;font-size:16.5px;margin-bottom:6px}
+.steps p{margin:0;color:var(--muted);font-size:14.5px}
+
+/* tính vay */
+.loan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:stretch}
+@media (max-width:860px){.loan{grid-template-columns:minmax(0,1fr)}}
+.loan form{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.loan label{min-width:0}
+.loan label{display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.loan label.w{grid-column:1/-1}
+.loan .box{display:flex;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:0 14px}
+.loan .box:focus-within{border-color:var(--gold)}
+.loan input{flex:1;min-width:0;width:100%;border:0;background:none;font:inherit;font-size:18px;font-weight:700;color:var(--ink);padding:12px 0;outline:none}
+.loan .box span{color:var(--muted);font-weight:500}
+.loan .res{background:var(--forest);color:var(--on-dark);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:16px}
+.loan .res .big{font-family:var(--display);font-size:clamp(36px,5vw,52px);color:var(--gold);line-height:1.05}
+.loan .res .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.loan .res .row div{background:rgba(255,255,255,.06);border-radius:14px;padding:12px 14px}
+.loan .res small{display:block;color:var(--on-dark-muted);font-size:12.5px}
+.loan .res b{font-size:18px}
+.loan .res p{margin:0;color:var(--on-dark-muted);font-size:13px}
 
 /* form */
-.lead{background:var(--brand);color:var(--brand-ink);border-radius:28px;padding:clamp(24px,5vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}
-@media (max-width:820px){.lead{grid-template-columns:1fr}}
-.lead h2{margin:0 0 10px;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
-.lead p{margin:0;opacity:.85}
-.lead ul{margin:18px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
-.lead li{display:flex;gap:10px;align-items:flex-start;opacity:.92}
-.lead li::before{content:"";width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:var(--brand-ink);opacity:.9;
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/14px no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/14px no-repeat}
-form.f{background:var(--surface);color:var(--ink);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px}
-.f label{font-size:13.5px;font-weight:600;color:var(--muted)}
-.f .fld{display:flex;flex-direction:column;gap:5px}
-.f input,.f select,.f textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;-webkit-appearance:none;appearance:none}
-.f textarea{min-height:84px;resize:vertical}
-.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--brand);outline-offset:0;border-color:var(--brand)}
+.reg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:start}
+@media (max-width:860px){.reg{grid-template-columns:minmax(0,1fr)}}
+.benefits{list-style:none;padding:0;margin:24px 0 0;display:flex;flex-direction:column;gap:12px}
+.benefits li{display:flex;gap:12px;align-items:flex-start;font-size:16px}
+.benefits li::before{content:"";width:22px;height:22px;flex:none;border-radius:50%;background:var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231B1408' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/14px no-repeat;margin-top:2px}
+form.f{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.f .fld{display:flex;flex-direction:column;gap:6px}
+.f label,.f .lb{font-size:13.5px;font-weight:600;color:var(--muted)}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:13px 15px;-webkit-appearance:none;appearance:none}
+.f textarea{min-height:88px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold)}
+.f .needs{display:flex;gap:8px;flex-wrap:wrap}
+.f .needs label{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:var(--ink);font-weight:500;border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;background:var(--bg)}
+.f .needs input{width:auto;accent-color:var(--gold)}
+.f .needs label:has(input:checked){border-color:var(--gold);background:var(--gold-soft)}
 .f .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .f .err{color:var(--danger);font-size:14px;margin:0}
 .f .note{font-size:12.5px;color:var(--muted);margin:0}
-.done{background:var(--surface);color:var(--ink);border-radius:20px;padding:28px 20px;text-align:center}
-.done b{display:block;font-size:20px;margin-bottom:6px}
+.done{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:40px 24px;text-align:center}
+.done b{display:block;font-family:var(--display);font-size:30px;margin-bottom:8px}
 
 /* chân trang */
-footer{padding-block:40px calc(96px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:14.5px}
-footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+footer{background:var(--forest);color:var(--on-dark-muted);padding-block:48px calc(104px + env(safe-area-inset-bottom,0px));font-size:14.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer b{color:#fff;font-family:var(--display);font-size:24px;font-weight:700}
 footer a{text-decoration:none}
-footer .links{display:flex;gap:16px;flex-wrap:wrap}
+footer a:hover{color:#fff}
+footer .links{display:flex;flex-direction:column;gap:8px}
+footer .small{margin-top:28px;font-size:12.5px;width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18px}
 
-/* thanh liên hệ cố định trên điện thoại */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;gap:10px;padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line)}
-.dock .btn{flex:1}
-@media (max-width:820px){.dock.on{display:flex}}
+/* nút nổi và thanh liên hệ trên điện thoại */
+.fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:35;display:flex;flex-direction:column;gap:10px}
+.fab a{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45);text-decoration:none;font-weight:800;font-size:13px}
+.fab .z{background:#0068FF;color:#fff}
+.fab .p{background:var(--gold);color:#1B1408}
+.fab svg{width:24px;height:24px}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:36;display:none;gap:10px;padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.dock .btn{flex:1;border-radius:14px}
+@media (max-width:760px){.dock.on{display:flex}.fab{display:none}}
 </style>
 </head>
 <body>
 
-<header class="top">
+<header class="top" id="top">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Về đầu trang"><span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1z"/></svg></span><span id="brandName">Nguyễn Trung</span></a>
-    <nav class="nav" aria-label="Mục chính">
-      <a href="#du-an" class="hide-sm">Dự án</a>
-      <a href="#lien-he" class="hide-sm">Nhận thông tin</a>
-      <a class="btn primary small" id="topCall" href="#lien-he">Liên hệ</a>
+    <a class="brand" href="#trang-chu" aria-label="Về đầu trang"><span class="ini" id="brandIni">T</span><span id="brandName">Nguyễn Trí Trung</span></a>
+    <nav class="menu" aria-label="Mục chính">
+      <a class="m" href="#gioi-thieu">Giới thiệu</a>
+      <a class="m" href="#du-an">Dự án</a>
+      <a class="m" href="#video">Video</a>
+      <a class="m" href="#tinh-vay">Tính vay</a>
+      <a class="btn gold sm" href="#nhan-thong-tin">Nhận bảng giá</a>
     </nav>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow" id="area">Hà Đông, Hà Nội</span>
-        <h1 id="name">Nguyễn Trung</h1>
-        <p class="role" id="title">Chuyên viên tư vấn bất động sản</p>
-        <p class="intro" id="intro">Tư vấn tận tâm, thông tin minh bạch, đồng hành cùng anh chị từ lúc chọn căn đến khi nhận nhà.</p>
-        <div class="cta" id="cta">
-          <a class="btn primary" href="#lien-he">Nhận bảng giá</a>
-          <a class="btn ghost" href="#du-an">Xem dự án</a>
-        </div>
-        <div class="facts" id="facts" hidden></div>
+<main id="trang-chu">
+  <section class="hero" aria-label="Giới thiệu nhanh">
+    <div class="bg" id="heroBg"></div>
+    <div class="wrap">
+      <div class="who"><span class="ini" id="heroIni">T</span><div><small id="heroRole">Chuyên viên kinh doanh</small><b id="heroArea">Hà Nội - Hưng Yên</b></div></div>
+      <h1 id="heroName">Nguyễn Trí Trung</h1>
+      <p class="slogan" id="heroSlogan">Uy tín tạo giá trị – Tận tâm dựng niềm tin</p>
+      <div class="cta" id="heroCta">
+        <a class="btn gold" href="#du-an">Xem dự án đang bán</a>
+        <a class="btn light" href="#nhan-thong-tin">Nhận bảng hàng &amp; giá</a>
       </div>
-      <div class="portrait" id="portrait"><div class="mono" id="mono">T</div><div class="tag"><i aria-hidden="true"></i><span>Đang nhận tư vấn hôm nay</span></div></div>
+      <div class="stats" id="heroStats"></div>
     </div>
   </section>
 
-  <section class="sec" id="du-an">
-    <div class="wrap">
-      <div class="sec-head"><div><h2>Dự án đang mở bán</h2><p>Bấm vào từng dự án để xem bảng giá, mặt bằng và chính sách bán hàng.</p></div></div>
-      <div class="grid" id="projects"><div class="skel"></div><div class="skel"></div></div>
+  <section class="sec" id="gioi-thieu">
+    <div class="wrap about">
+      <div class="portrait reveal" id="portrait"><div class="ini" id="portraitIni">T</div>
+        <div class="badge"><i aria-hidden="true"></i><div><b>Đang nhận tư vấn</b><span>Phản hồi trong giờ làm việc</span></div></div></div>
+      <div class="reveal">
+        <span class="kicker">Giới thiệu</span>
+        <h2>Xin chào, tôi là <em class="g" id="aboutName">Trí Trung</em></h2>
+        <p class="bio" id="bio"></p>
+        <ul class="skills" id="skills"></ul>
+        <div class="contact-list" id="contactList"></div>
+        <div class="socials" id="socials"></div>
+      </div>
     </div>
   </section>
 
-  <section class="sec" id="lien-he">
+  <section class="sec" id="cam-ket" style="padding-top:0">
     <div class="wrap">
-      <div class="lead">
-        <div>
-          <h2>Nhận bảng giá và chính sách mới nhất</h2>
-          <p>Để lại số điện thoại, em gọi lại tư vấn trong ngày.</p>
-          <ul>
-            <li>Bảng giá, quỹ căn còn trống và chính sách chiết khấu</li>
-            <li>Tính sẵn phương án vay và số tiền trả hằng tháng</li>
-            <li>Đặt lịch đi xem nhà mẫu, dự án thực tế</li>
-          </ul>
+      <div class="head reveal"><div><span class="kicker">Cam kết</span><h2 id="pledgeTitle">Niềm tin của Quý khách là <em class="g">trách nhiệm của tôi</em></h2></div></div>
+      <div class="pledge reveal" id="pledge"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="du-an" style="background:var(--surface)">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><span class="kicker">Dự án đang triển khai</span><h2>Các dự án tôi <em class="g">trực tiếp phân phối</em></h2>
+          <p class="lead">Bấm vào từng dự án để xem vị trí, pháp lý, thời gian bàn giao và video thực tế.</p></div>
+        <div class="filters" id="filters" role="group" aria-label="Lọc theo khu vực"></div>
+      </div>
+      <div class="grid" id="projects"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="video">
+    <div class="wrap">
+      <div class="head reveal"><div><span class="kicker">Video thực tế</span><h2>Đi thực tế <em class="g">từng toà, từng trục căn</em></h2>
+        <p class="lead">Tôi quay lại cho anh chị xem trước, đỡ mất công đi.</p></div>
+        <a class="btn line sm" id="tiktokAll" href="#" target="_blank" rel="noopener" hidden>Xem thêm trên TikTok ↗</a></div>
+      <div class="vgrid" id="videos"></div>
+    </div>
+  </section>
+
+  <section class="sec creed" id="quan-diem">
+    <div class="wrap">
+      <span class="kicker">Quan điểm làm nghề</span>
+      <p class="quote" id="creedQuote">Uy tín tạo giá trị – Tận tâm dựng niềm tin</p>
+      <div class="values" id="values"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="quy-trinh">
+    <div class="wrap">
+      <div class="head reveal"><div><span class="kicker">Quy trình</span><h2>5 bước <em class="g">đồng hành cùng khách hàng</em></h2>
+        <p class="lead">Một mục tiêu chung: giúp anh chị ra quyết định đúng, an tâm từ lúc tìm hiểu đến sau khi nhận nhà.</p></div></div>
+      <ol class="steps reveal" id="steps"></ol>
+    </div>
+  </section>
+
+  <section class="sec" id="tinh-vay" style="background:var(--surface)">
+    <div class="wrap">
+      <div class="head reveal"><div><span class="kicker">Công cụ</span><h2>Tính nhanh <em class="g">khoản vay mua nhà</em></h2>
+        <p class="lead">Nhập giá căn và phương án vay để xem số tiền trả hằng tháng. Số liệu tham khảo, ngân hàng báo chính xác khi duyệt hồ sơ.</p></div></div>
+      <div class="loan reveal">
+        <form id="loanForm" novalidate>
+          <label class="w">Giá căn<span class="box"><input id="ln-price" inputmode="decimal" value="10"><span>tỷ</span></span></label>
+          <label>Vay ngân hàng<span class="box"><input id="ln-ltv" inputmode="numeric" value="60"><span>%</span></span></label>
+          <label>Thời hạn<span class="box"><input id="ln-yrs" inputmode="numeric" value="25"><span>năm</span></span></label>
+          <label>Lãi suất<span class="box"><input id="ln-rate" inputmode="decimal" value="9,5"><span>%/năm</span></span></label>
+          <label>Ân hạn gốc<span class="box"><input id="ln-grace" inputmode="numeric" value="0"><span>tháng</span></span></label>
+        </form>
+        <div class="res" aria-live="polite">
+          <div><small>Tháng đầu trả khoảng</small><div class="big" id="ln-first">–</div></div>
+          <div class="row">
+            <div><small>Vốn tự có</small><b id="ln-own">–</b></div>
+            <div><small>Số tiền vay</small><b id="ln-loan">–</b></div>
+            <div><small>Trả đều mỗi tháng</small><b id="ln-eq">–</b></div>
+            <div><small>Tổng lãi (dư nợ giảm dần)</small><b id="ln-int">–</b></div>
+          </div>
+          <p>Tính theo dư nợ giảm dần. Mỗi dự án có chính sách hỗ trợ lãi suất, ân hạn gốc khác nhau — để lại số điện thoại để nhận phương án vay chi tiết.</p>
+          <a class="btn gold" href="#nhan-thong-tin" data-need="Cần vay ngân hàng">Nhận phương án vay chi tiết</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="nhan-thong-tin">
+    <div class="wrap reg">
+      <div class="reveal">
+        <span class="kicker">Quan tâm</span>
+        <h2>Nhận bảng hàng <em class="g">và chính sách mới nhất</em></h2>
+        <p class="lead">Để lại thông tin, tôi sẽ gọi lại tư vấn chi tiết trong thời gian sớm nhất.</p>
+        <ul class="benefits" id="benefits"></ul>
+      </div>
+      <div class="reveal">
         <form class="f" id="leadForm" novalidate>
-          <div class="fld"><label for="lf-name">Họ tên</label><input id="lf-name" name="name" autocomplete="name" placeholder="Nguyễn Văn An" required></div>
-          <div class="fld"><label for="lf-phone">Số điện thoại</label><input id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0912 345 678" required></div>
-          <div class="fld"><label for="lf-project">Dự án quan tâm</label><select id="lf-project" name="project"><option value="">Chưa chọn</option></select></div>
-          <div class="fld"><label for="lf-msg">Anh chị cần tư vấn gì? <span style="font-weight:400">(không bắt buộc)</span></label><textarea id="lf-msg" name="message" placeholder="Tài chính khoảng 15 tỷ, cần căn mặt tiền"></textarea></div>
+          <div class="fld"><label for="lf-name">Họ tên</label><input id="lf-name" name="name" autocomplete="name" placeholder="Nguyễn Văn An"></div>
+          <div class="fld"><label for="lf-phone">Số điện thoại</label><input id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0912 345 678"></div>
+          <div class="fld"><label for="lf-project">Dự án quan tâm</label><select id="lf-project" name="project"><option value="">Chưa chọn, cần tư vấn</option></select></div>
+          <div class="fld"><span class="lb">Nhu cầu</span><div class="needs" id="needs">
+            <label><input type="checkbox" name="need" value="Để ở">Để ở</label>
+            <label><input type="checkbox" name="need" value="Đầu tư">Đầu tư</label>
+            <label><input type="checkbox" name="need" value="Cần vay ngân hàng">Cần vay ngân hàng</label></div></div>
+          <div class="fld"><label for="lf-msg">Ghi chú <span style="font-weight:400">(không bắt buộc)</span></label><textarea id="lf-msg" name="message" placeholder="Tài chính khoảng 5 tỷ, cần căn 2 phòng ngủ"></textarea></div>
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p class="err" id="lf-err" hidden></p>
-          <button class="btn primary" type="submit" id="lf-btn">Gửi thông tin</button>
+          <button class="btn gold" type="submit" id="lf-btn">Gửi thông tin</button>
           <p class="note">Thông tin chỉ dùng để liên hệ tư vấn, không chia sẻ cho bên thứ ba.</p>
         </form>
-        <div class="done" id="lf-done" hidden><b>Đã nhận thông tin</b><span>Cảm ơn anh chị, em sẽ gọi lại sớm.</span></div>
+        <div class="done" id="lf-done" hidden><b>Đã nhận thông tin</b><span>Cảm ơn anh chị, tôi sẽ gọi lại sớm nhất.</span></div>
       </div>
     </div>
   </section>
@@ -199,116 +404,203 @@ footer .links{display:flex;gap:16px;flex-wrap:wrap}
 
 <footer>
   <div class="wrap">
-    <div><b style="color:var(--ink)" id="footName">Nguyễn Trung</b><br><span id="footTitle">Chuyên viên tư vấn bất động sản</span></div>
+    <div><b id="footName">Nguyễn Trí Trung</b><div id="footRole">Chuyên viên kinh doanh · Galaxy Group</div><div id="footSlogan" style="margin-top:8px"></div></div>
     <div class="links" id="footLinks"></div>
+    <div class="small">© <span id="year"></span> <span id="footName2">Nguyễn Trí Trung</span>. Thông tin dự án mang tính tham khảo, giá và chính sách theo công bố của chủ đầu tư tại từng thời điểm.</div>
   </div>
 </footer>
 
+<div class="fab" id="fab" hidden></div>
 <div class="dock" id="dock"></div>
 
+<dialog class="pd" id="pd" aria-labelledby="pdTitle"><div class="pd-in">
+  <div class="pd-img"><img id="pdImg" alt=""><button class="x" type="button" id="pdClose" aria-label="Đóng">×</button></div>
+  <div class="pd-body">
+    <h3 id="pdTitle"></h3>
+    <div class="facts" id="pdFacts"></div>
+    <p class="desc" id="pdDesc"></p>
+    <div class="vids" id="pdVids"></div>
+    <div class="acts" id="pdActs"></div>
+  </div></div></dialog>
+
 <script>
+document.documentElement.classList.add("js");
 const API = "https://script.google.com/macros/s/AKfycbxKpu-fw4o_bI0DOFLLAmE2ox2Boh5DwdWjSgrKtYWHd7fPn3hKvgjgT-A9RylTqdOB/exec";
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const digits = p => { let d=String(p||"").replace(/\D/g,""); if(d.startsWith("84")&&d.length>=11) d="0"+d.slice(2); return d; };
 const fmtPhone = p => { const d=digits(p); return d.length===10 ? d.replace(/(\d{4})(\d{3})(\d{3})/,"$1 $2 $3") : d; };
 const safeUrl = u => /^https?:\/\//i.test(String(u||"").trim()) ? String(u).trim() : "";
-// link ảnh Google Drive → link hiển thị trực tiếp
-function img(u){ u=safeUrl(u); const m=u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/); return m ? `https://lh3.googleusercontent.com/d/${m[1]}=w1200` : u; }
-const ICON = {
+function img(u){ u=safeUrl(u); const m=u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/); return m ? `https://lh3.googleusercontent.com/d/${m[1]}=w1600` : u; }
+const lines = s => String(s||"").split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+const pairs = s => lines(s).map(l=>{ const i=l.indexOf("|"); return i<0 ? [l,""] : [l.slice(0,i).trim(), l.slice(i+1).trim()]; });
+const initial = n => (String(n||"").trim().split(/\s+/).pop()||"?").charAt(0).toUpperCase();
+const ytId = u => (String(u).match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/)||[])[1];
+const regionOf = p => /hưng yên|văn giang|mỹ hào|ocean (park|city)|nghĩa trụ/i.test(p.location+" "+p.name) ? "Hưng Yên" : "Hà Nội";
+const I = {
   phone:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>',
-  chat:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.6 1.3 4.9 3.4 6.5L5 21.5l3.7-1.9c1 .3 2.1.4 3.3.4 5.5 0 10-3.9 10-8.7S17.5 3 12 3z"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2v.4l8 5 8-5V7zm16 2.75-8 5-8-5V17h16z"/></svg>',
   pin:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
   arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>'
 };
-let PROFILE = {}, PROJECTS = [];
+let P = {}, PROJECTS = [], VIDEOS = [], region = "Tất cả";
+
+function setAvatar(id, name, photo){
+  const old=$(id); if(!old) return;
+  const ini=()=>{ const s=document.createElement("span"); s.className="ini"; s.id=id; s.textContent=initial(name); return s; };
+  let el;
+  if(photo){ el=new Image(); el.alt=name; el.src=photo; el.onerror=()=>el.replaceWith(ini()); el.id=id; }
+  else el=ini();
+  if(old.tagName==="IMG" && el.tagName==="IMG" && old.src===el.src) return;
+  old.replaceWith(el);
+}
 
 function renderProfile(p){
-  PROFILE=p;
-  const name=p.name||"Tư vấn bất động sản";
+  P=p; const name=p.name||"Tư vấn bất động sản", photo=img(p.photo), tel=digits(p.phone), zalo=digits(p.zalo||p.phone);
   document.title = `${name} · ${p.title||"Tư vấn bất động sản"}`;
-  ["name","brandName","footName"].forEach(id=>$(id).textContent=name);
-  $("title").textContent=p.title||""; $("footTitle").textContent=p.title||"";
-  $("area").textContent=p.area||""; $("area").hidden=!p.area;
-  $("intro").textContent=p.intro||""; $("intro").hidden=!p.intro;
-  const last=name.trim().split(/\s+/).pop()||"?"; $("mono").textContent=last.charAt(0).toUpperCase();
-  const photo=img(p.photo);
-  if(photo){ const im=new Image(); im.alt=name; im.src=photo; im.onload=()=>{ $("mono").replaceWith(im); }; }
-  const tel=digits(p.phone), zalo=digits(p.zalo||p.phone);
-  const callBtn = tel ? `<a class="btn primary" href="tel:${tel}">${ICON.phone}Gọi ${fmtPhone(tel)}</a>` : `<a class="btn primary" href="#lien-he">Nhận bảng giá</a>`;
-  const zaloBtn = zalo ? `<a class="btn ghost" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">${ICON.chat}Nhắn Zalo</a>` : "";
-  $("cta").innerHTML = callBtn + zaloBtn + `<a class="btn ghost" href="#du-an">Xem dự án</a>`;
-  if(tel){ const t=$("topCall"); t.href=`tel:${tel}`; t.innerHTML=`${ICON.phone}<span>Gọi</span>`; }
-  const dock=$("dock");
-  if(tel||zalo){ dock.innerHTML=(tel?`<a class="btn primary" href="tel:${tel}">${ICON.phone}Gọi ngay</a>`:"")+(zalo?`<a class="btn ghost" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">${ICON.chat}Zalo</a>`:""); dock.classList.add("on"); }
-  const facts=[];
-  if(p.years) facts.push([p.years+" năm","kinh nghiệm"]);
-  if(PROJECTS.length) facts.push([String(PROJECTS.length),"dự án đang bán"]);
-  if(p.area) facts.push([p.area.split(",")[0],"khu vực chính"]);
-  $("facts").innerHTML=facts.map(f=>`<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join(""); $("facts").hidden=!facts.length;
-  const links=[];
-  if(tel) links.push(`<a href="tel:${tel}">${fmtPhone(tel)}</a>`);
-  if(zalo) links.push(`<a href="https://zalo.me/${zalo}" target="_blank" rel="noopener">Zalo</a>`);
-  if(p.email) links.push(`<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`);
-  if(safeUrl(p.facebook)) links.push(`<a href="${esc(safeUrl(p.facebook))}" target="_blank" rel="noopener">Facebook</a>`);
-  $("footLinks").innerHTML=links.join("");
+  $("brandName").textContent=name; $("heroName").textContent=name; ["footName","footName2"].forEach(i=>$(i).textContent=name);
+  $("aboutName").textContent=name.split(/\s+/).slice(-2).join(" ");
+  setAvatar("brandIni", name, photo); setAvatar("heroIni", name, photo);
+  $("heroRole").textContent=p.title||""; $("heroArea").textContent=p.area||""; $("footRole").textContent=p.title||"";
+  $("heroSlogan").textContent=p.slogan||p.intro||""; $("footSlogan").textContent=p.slogan||"";
+  if(p.slogan) $("creedQuote").textContent=p.slogan.replace(/\s*-\s*/," – ");
+  const cover=img(p.cover)||img(PROJECTS[0]?.image); if(cover) $("heroBg").style.backgroundImage=`url("${cover.replace(/"/g,"%22")}")`;
+  if(photo && $("portraitIni")){ const pi=$("portraitIni"); const im=new Image(); im.alt=name; im.src=photo; im.onload=()=>{ if(pi.isConnected) pi.replaceWith(im); }; }
+  $("bio").textContent=p.intro||"";
+  $("skills").innerHTML=lines(p.skills).map(s=>`<li>${esc(s)}</li>`).join("");
+  const cl=[];
+  if(tel) cl.push(`<a href="tel:${tel}"><i>${I.phone}</i><span><small>Điện thoại · Zalo</small><b>${fmtPhone(tel)}</b></span></a>`);
+  if(p.email) cl.push(`<a href="mailto:${esc(p.email)}"><i>${I.mail}</i><span><small>Email</small><b>${esc(p.email)}</b></span></a>`);
+  if(p.area) cl.push(`<a href="#du-an"><i>${I.pin}</i><span><small>Khu vực</small><b>${esc(p.area)}</b></span></a>`);
+  $("contactList").innerHTML=cl.join("");
+  const so=[]; if(safeUrl(p.facebook)) so.push(["Facebook",p.facebook]); if(safeUrl(p.tiktok)) so.push(["TikTok",p.tiktok]); if(safeUrl(p.ghub)) so.push(["Trang G-Hub",p.ghub]);
+  $("socials").innerHTML=so.map(([t,u])=>`<a class="btn line sm" href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(t)} ${I.arrow}</a>`).join("");
+  if(safeUrl(p.tiktok)){ const t=$("tiktokAll"); t.href=safeUrl(p.tiktok); t.hidden=false; }
+  const pl=pairs(p.pledge); $("pledge").innerHTML=pl.map(([t,d],i)=>`<div><span class="n">0${i+1}</span><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join(""); $("cam-ket").hidden=!pl.length;
+  const cr=pairs(p.creed); $("values").innerHTML=cr.map(([t,d])=>`<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join(""); $("values").hidden=!cr.length;
+  const st=pairs(p.process); $("steps").innerHTML=st.map(([t,d])=>`<li><b>${esc(t)}</b><p>${esc(d)}</p></li>`).join(""); $("quy-trinh").hidden=!st.length;
+  const be=lines(p.benefits); $("benefits").innerHTML=be.map(b=>`<li>${esc(b)}</li>`).join("");
+  // nút gọi
+  const cta=[`<a class="btn gold" href="#du-an">Xem dự án đang bán</a>`];
+  if(tel) cta.push(`<a class="btn light" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`); else cta.push(`<a class="btn light" href="#nhan-thong-tin">Nhận bảng hàng &amp; giá</a>`);
+  if(zalo) cta.push(`<a class="btn light" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">Nhắn Zalo</a>`);
+  $("heroCta").innerHTML=cta.join("");
+  const fab=$("fab"); fab.innerHTML=(zalo?`<a class="z" href="https://zalo.me/${zalo}" target="_blank" rel="noopener" aria-label="Nhắn Zalo">Zalo</a>`:"")+(tel?`<a class="p" href="tel:${tel}" aria-label="Gọi điện">${I.phone}</a>`:""); fab.hidden=!(tel||zalo);
+  const dock=$("dock"); if(tel||zalo){ dock.innerHTML=(tel?`<a class="btn gold" href="tel:${tel}">${I.phone}Gọi ngay</a>`:"")+(zalo?`<a class="btn dark" href="https://zalo.me/${zalo}" target="_blank" rel="noopener">Nhắn Zalo</a>`:""); dock.classList.add("on"); }
+  const fl=[]; if(tel) fl.push(`<a href="tel:${tel}">Hotline: ${fmtPhone(tel)}</a>`); if(p.email) fl.push(`<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`); so.forEach(([t,u])=>fl.push(`<a href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(t)}</a>`));
+  $("footLinks").innerHTML=fl.join("");
+  renderStats();
+}
+function renderStats(){
+  const s=[]; if(PROJECTS.length) s.push([PROJECTS.length,"dự án đang phân phối"]); if(VIDEOS.length) s.push([VIDEOS.length,"video đi thực tế"]); if(P.years) s.push([P.years+"+","năm kinh nghiệm"]);
+  const regs=[...new Set(PROJECTS.map(regionOf))]; if(regs.length) s.push([regs.length,"khu vực: "+regs.join(", ")]);
+  $("heroStats").innerHTML=s.map(([b,t])=>`<div><b>${esc(b)}</b><span>${esc(t)}</span></div>`).join("");
 }
 function renderProjects(list){
   PROJECTS=list;
-  const box=$("projects");
-  if(!list.length){ box.innerHTML=`<div class="empty">Danh sách dự án đang được cập nhật. Anh chị để lại số điện thoại để nhận thông tin sớm nhất.</div>`; }
-  else box.innerHTML=list.map((p,i)=>{
-    const cover=img(p.image), link=safeUrl(p.link);
-    return `<article class="card">
-      <div class="cover">${cover?`<img src="${esc(cover)}" alt="Phối cảnh ${esc(p.name)}" loading="lazy" onerror="this.remove()">`:""}
-        ${cover?"":`<div class="ph"><b>${esc(p.name)}</b></div>`}${p.type?`<span class="chip">${esc(p.type)}</span>`:""}</div>
-      <div class="body">
-        <h3>${esc(p.name)}</h3>
-        ${p.location?`<div class="loc">${ICON.pin}<span>${esc(p.location)}</span></div>`:""}
-        ${p.desc?`<p class="desc">${esc(p.desc)}</p>`:""}
-        <div class="actions">
-          ${link?`<a class="btn primary small" href="${esc(link)}" target="_blank" rel="noopener">Xem thông tin dự án ${ICON.arrow}</a>`:""}
-          <button class="btn ghost small" type="button" data-pick="${i}">Nhận bảng giá</button>
-        </div>
-      </div></article>`;}).join("");
-  $("lf-project").innerHTML=`<option value="">Chưa chọn</option>`+list.map(p=>`<option>${esc(p.name)}</option>`).join("");
+  const regs=["Tất cả",...new Set(list.map(regionOf))];
+  $("filters").innerHTML = regs.length>2 ? regs.map(r=>`<button type="button" data-r="${esc(r)}" aria-pressed="${r===region}">${esc(r)}</button>`).join("") : "";
+  const shown=list.map((p,i)=>({p,i})).filter(x=>region==="Tất cả"||regionOf(x.p)===region);
+  $("projects").innerHTML = shown.length ? shown.map(({p,i})=>{
+    const cover=img(p.image); const tags=[p.type?`<span>${esc(p.type.split("·")[0].trim())}</span>`:"", p.handover?`<span class="gold">Bàn giao ${esc(p.handover.replace(/^dự kiến\s*/i,""))}</span>`:""].join("");
+    return `<button class="card reveal" type="button" data-i="${i}" aria-label="Xem chi tiết ${esc(p.name)}">
+      ${cover?`<img src="${esc(cover)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph'}))">`:`<div class="ph"></div>`}
+      <div class="tags">${tags}</div>
+      <div class="txt"><h3>${esc(p.name)}</h3>${p.location?`<div class="loc">${I.pin}<span>${esc(p.location)}</span></div>`:""}<span class="more">Xem chi tiết ${I.arrow}</span></div></button>`;}).join("")
+    : `<p class="lead">Danh sách dự án đang được cập nhật.</p>`;
+  $("lf-project").innerHTML=`<option value="">Chưa chọn, cần tư vấn</option>`+list.map(p=>`<option>${esc(p.name)}</option>`).join("");
+  observe(); renderStats();
 }
-$("projects").addEventListener("click", e=>{
-  const b=e.target.closest("[data-pick]"); if(!b) return;
-  $("lf-project").value=PROJECTS[+b.dataset.pick].name;
-  $("lien-he").scrollIntoView(); setTimeout(()=>$("lf-name").focus({preventScroll:true}),400);
+function renderVideos(list){
+  VIDEOS=list; const box=$("videos");
+  if(!list.length){ $("video").hidden=true; return; } $("video").hidden=false;
+  box.innerHTML=list.map(v=>{
+    const id=ytId(v.url), proj=PROJECTS.find(p=>p.name.toLowerCase()===String(v.project).toLowerCase());
+    const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : img(proj?.image);
+    const src = /tiktok/i.test(v.url) ? "TikTok" : (id ? "YouTube" : "Video");
+    return `<a class="vcard" href="${esc(safeUrl(v.url))}" target="_blank" rel="noopener">
+      ${thumb?`<img src="${esc(thumb)}" alt="" loading="lazy">`:""}<span class="src">${src}</span><span class="play">${I.play}</span>
+      <span class="cap">${v.project?`<small>${esc(v.project)}</small>`:""}${esc(v.title)}</span></a>`;}).join("");
+  renderStats();
+}
+
+/* chi tiết dự án */
+const pd=$("pd");
+function openProject(i){
+  const p=PROJECTS[i]; if(!p) return;
+  $("pdImg").src=img(p.image)||""; $("pdImg").alt="Phối cảnh "+p.name; $("pdTitle").textContent=p.name;
+  const f=[["Vị trí",p.location],["Loại sản phẩm",p.type],["Pháp lý",p.legal],["Bàn giao",p.handover],["Khu vực",regionOf(p)]].filter(x=>x[1]);
+  $("pdFacts").innerHTML=f.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join("");
+  $("pdDesc").textContent=p.desc||"Liên hệ để nhận thông tin chi tiết về dự án, bảng hàng và chính sách bán hàng mới nhất.";
+  const vids=VIDEOS.filter(v=>String(v.project).toLowerCase()===p.name.toLowerCase());
+  $("pdVids").innerHTML=vids.map(v=>`<a href="${esc(safeUrl(v.url))}" target="_blank" rel="noopener">${I.play}${esc(v.title)}</a>`).join("");
+  const link=safeUrl(p.link);
+  $("pdActs").innerHTML=`<a class="btn gold" href="#nhan-thong-tin" data-proj="${esc(p.name)}">Nhận bảng giá ${esc(p.name)}</a>`+(link?`<a class="btn line" href="${esc(link)}" target="_blank" rel="noopener">Xem thông tin đầy đủ ${I.arrow}</a>`:"")+(P.phone?`<a class="btn line" href="tel:${digits(P.phone)}">${I.phone}Gọi tư vấn</a>`:"");
+  if(pd.showModal) pd.showModal(); else pd.setAttribute("open","");
+  pd.querySelector(".pd-body").scrollTop=0;
+}
+function closeProject(){ if(pd.close) pd.close(); else pd.removeAttribute("open"); }
+$("projects").addEventListener("click", e=>{ const c=e.target.closest("[data-i]"); if(c) openProject(+c.dataset.i); });
+$("filters").addEventListener("click", e=>{ const b=e.target.closest("[data-r]"); if(b){ region=b.dataset.r; renderProjects(PROJECTS); } });
+$("pdClose").addEventListener("click", closeProject);
+pd.addEventListener("click", e=>{ if(e.target===pd) closeProject(); });
+document.addEventListener("click", e=>{
+  const a=e.target.closest("[data-proj]"); if(a){ $("lf-project").value=a.dataset.proj; closeProject(); }
+  const n=e.target.closest("[data-need]"); if(n){ document.querySelectorAll('#needs input').forEach(i=>{ if(i.value===n.dataset.need) i.checked=true; }); }
 });
 
-async function load(){
-  let data=null;
-  try{ data=JSON.parse(localStorage.getItem("site-cache")||"null"); }catch(e){}
-  if(data){ renderProjects(data.projects||[]); renderProfile(data.profile||{}); }
-  try{
-    const r=await fetch(API+"?action=site&t="+Date.now(),{cache:"no-store"}); const j=await r.json();
-    if(j.ok){ renderProjects(j.projects||[]); renderProfile(j.profile||{}); try{ localStorage.setItem("site-cache",JSON.stringify(j)); }catch(e){} return; }
-  }catch(e){}
-  if(!data){ renderProjects([]); renderProfile({name:"Nguyễn Trung",title:"Chuyên viên tư vấn bất động sản",area:"Hà Đông, Hà Nội"}); }
+/* tính vay */
+const num = id => { const v=parseFloat(String($(id).value).replace(/\s/g,"").replace(",",".")); return isFinite(v)?v:0; };
+const money = v => { const m=v/1e6; if(!isFinite(m)||m<=0) return "–"; return m>=1000 ? (m/1000).toFixed(2).replace(/\.?0+$/,"").replace(".",",")+" tỷ" : Math.round(m).toLocaleString("vi-VN")+" triệu"; };
+function loan(){
+  const price=num("ln-price")*1e9, P=price*Math.min(100,num("ln-ltv"))/100, n=Math.max(1,Math.round(num("ln-yrs")*12)), r=num("ln-rate")/1200, g=Math.min(Math.round(num("ln-grace")),n-1);
+  const first = g>0 ? P*r : P/(n-g)+P*r;
+  let tot=0, bal=P; for(let k=0;k<n;k++){ tot+=bal*r; if(k>=g) bal-=P/(n-g); }
+  const left=n-g, eq = g>0 ? P*r : (r===0 ? P/left : P*r/(1-Math.pow(1+r,-left)));
+  $("ln-first").textContent=money(first); $("ln-own").textContent=money(price-P); $("ln-loan").textContent=money(P); $("ln-eq").textContent=money(eq); $("ln-int").textContent=money(tot);
 }
+$("loanForm").addEventListener("input", loan); $("loanForm").addEventListener("submit", e=>e.preventDefault()); loan();
 
+/* hiệu ứng khi cuộn */
+let io=null;
+function observe(){
+  if(!("IntersectionObserver" in window)){ document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")); return; }
+  io = io || new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } }),{rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".reveal:not(.in)").forEach(el=>io.observe(el));
+}
+const top_=$("top"); const onScroll=()=>top_.classList.toggle("solid", scrollY>60); addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+/* tải dữ liệu từ Google Sheet */
+function apply(d){ renderProjects(d.projects||[]); renderVideos(d.videos||[]); renderProfile(d.profile||{}); observe(); }
+async function load(){
+  let cache=null; try{ cache=JSON.parse(localStorage.getItem("site-cache-v2")||"null"); }catch(e){}
+  if(cache) apply(cache);
+  try{ const r=await fetch(API+"?action=site&t="+Date.now(),{cache:"no-store"}); const j=await r.json();
+    if(j.ok){ apply(j); try{ localStorage.setItem("site-cache-v2",JSON.stringify(j)); }catch(e){} return; } }catch(e){}
+  if(!cache) apply({profile:{name:"Nguyễn Trí Trung",title:"Chuyên viên kinh doanh · Galaxy Group",area:"Hà Nội - Hưng Yên"},projects:[],videos:[]});
+}
+$("year").textContent=new Date().getFullYear();
+
+/* form khách để lại thông tin */
 $("leadForm").addEventListener("submit", async e=>{
   e.preventDefault();
   const f=new FormData(e.target), err=$("lf-err"), btn=$("lf-btn");
   const name=String(f.get("name")||"").trim(), phone=digits(f.get("phone"));
   err.hidden=true;
   if(!name){ err.textContent="Anh chị nhập giúp họ tên."; err.hidden=false; $("lf-name").focus(); return; }
-  if(!/^0\d{9,10}$/.test(phone)){ err.textContent="Số điện thoại chưa đúng, anh chị kiểm tra lại giúp em."; err.hidden=false; $("lf-phone").focus(); return; }
+  if(!/^0\d{9,10}$/.test(phone)){ err.textContent="Số điện thoại chưa đúng, anh chị kiểm tra lại giúp."; err.hidden=false; $("lf-phone").focus(); return; }
+  const needs=f.getAll("need"), msg=[needs.length?"Nhu cầu: "+needs.join(", "):"", String(f.get("message")||"").trim()].filter(Boolean).join(". ");
   btn.disabled=true; btn.textContent="Đang gửi…";
   try{
-    const r=await fetch(API,{method:"POST",body:JSON.stringify({action:"lead",name,phone,project:f.get("project"),message:f.get("message"),website:f.get("website")})});
-    const j=await r.json();
-    if(!j.ok) throw new Error(j.error);
+    const r=await fetch(API,{method:"POST",body:JSON.stringify({action:"lead",name,phone,project:f.get("project"),message:msg,website:f.get("website")})});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error);
     e.target.hidden=true; $("lf-done").hidden=false;
   }catch(x){
-    err.textContent = PROFILE.phone ? `Chưa gửi được. Anh chị gọi trực tiếp ${fmtPhone(PROFILE.phone)} giúp em.` : "Chưa gửi được, anh chị thử lại sau ít phút.";
-    err.hidden=false;
+    err.textContent = P.phone ? `Chưa gửi được. Anh chị gọi trực tiếp ${fmtPhone(P.phone)} giúp tôi.` : "Chưa gửi được, anh chị thử lại sau ít phút."; err.hidden=false;
   }finally{ btn.disabled=false; btn.textContent="Gửi thông tin"; }
 });
-load();
+load(); observe();
 </script>
 </body>
 </html>
