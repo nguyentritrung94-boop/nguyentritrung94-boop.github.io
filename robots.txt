@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nguyentritrung94-boop.github.io/sitemap.xml
