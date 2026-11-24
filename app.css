@@ -34,6 +34,26 @@ em.g{font-style:normal}
 .brand img,.brand .ini{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;border:2px solid var(--orange)}
 .brand .ini{display:grid;place-items:center;background:var(--soft);font-weight:700}
 .brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;text-transform:uppercase;color:var(--navy);letter-spacing:.02em;font-size:16px}
+.brand .logo{width:40px;height:40px;flex:none}
+.brand .bt{font-weight:800;letter-spacing:.05em;line-height:1.2}
+.brand .bt small{display:block;font-weight:500;font-size:10.5px;letter-spacing:.12em;color:var(--muted)}
+.cover{padding:36px 0 52px;background:linear-gradient(180deg,#fff 0%,#FFF8F3 100%)}
+.cv-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center}
+.cv-kick{display:inline-block;background:#FFF1E7;color:var(--orange);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:30px}
+.cover h1{font-size:clamp(30px,4.2vw,46px);line-height:1.15;color:var(--navy);margin:18px 0;font-weight:800}
+.cover h1 em{font-style:normal;color:var(--orange)}
+.cover p{color:var(--muted);line-height:1.65;max-width:520px}
+.cv-acts{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.btn.cv-line{border:1.5px solid var(--navy);color:var(--navy);background:transparent}
+.cv-ticks{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:14px;font-weight:600}
+.cv-ticks div::before{content:"✓";color:var(--orange);margin-right:8px}
+.cv-col{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:230px 230px;gap:12px}
+.cv-col a{border-radius:10px;background:var(--soft) center/cover;position:relative;overflow:hidden;transition:transform .3s}
+.cv-col a:hover{transform:translateY(-3px)}
+.cv-col a:first-child{grid-row:span 2}
+.cv-col span{position:absolute;left:10px;bottom:10px;background:rgba(11,0,58,.85);color:#fff;font-size:12px;font-weight:600;padding:6px 10px;border-radius:4px}
+@media (max-width:860px){.cv-in{grid-template-columns:minmax(0,1fr);gap:28px}.cv-col{grid-template-rows:150px 150px}.cover{padding:24px 0 36px}}
+@media (max-width:420px){.cv-ticks{gap:8px 12px;font-size:12.5px}.brand .bt small{display:none}.brand .bt{font-size:14px;letter-spacing:.02em}.brand .logo{width:34px;height:34px}.brand{gap:8px}}
 .menu{display:flex;align-items:center;gap:2px}
 .menu a{text-decoration:none;font-size:14px;font-weight:600;text-transform:uppercase;color:var(--ink);padding:8px 12px}
 .menu a.m:hover{color:var(--orange)}

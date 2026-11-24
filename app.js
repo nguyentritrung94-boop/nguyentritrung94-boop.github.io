@@ -32,9 +32,9 @@ function setAvatar(id, name, photo){
 
 function renderProfile(p){
   P=p; const name=p.name||"Tư vấn bất động sản", photo=img(p.photo), tel=digits(p.phone), zalo=digits(p.zalo||p.phone);
-  $("brandName").textContent=name; $("heroName").textContent=name; ["footName","footName2"].forEach(i=>$(i).textContent=name);
+  $("heroName").textContent=name; ["footName","footName2"].forEach(i=>$(i).textContent=name);
   $("aboutName").textContent=name.split(/\s+/).slice(-2).join(" ");
-  setAvatar("brandIni", name, photo); setAvatar("heroIni", name, photo);
+  setAvatar("heroIni", name, photo);
   $("heroRole").textContent=p.title||""; $("heroArea").textContent=p.area||""; $("footRole").textContent=p.title||"";
   $("heroSlogan").textContent=p.slogan||p.intro||""; $("footSlogan").textContent=p.slogan||"";
   if(p.slogan) $("creedQuote").textContent=p.slogan.replace(/\s*-\s*/," – ");
