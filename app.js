@@ -35,8 +35,7 @@ function renderProfile(p){
   $("heroName").textContent=name; ["footName","footName2"].forEach(i=>$(i).textContent=name);
   $("aboutName").textContent=name.split(/\s+/).slice(-2).join(" ");
   setAvatar("heroIni", name, photo);
-  $("heroRole").textContent=p.title||""; $("heroArea").textContent=p.area||""; $("footRole").textContent=p.title||"";
-  $("heroSlogan").textContent=p.slogan||p.intro||""; $("footSlogan").textContent=p.slogan||"";
+  $("heroRole").textContent=p.title||""; $("heroArea").textContent=p.area||"";  $("heroSlogan").textContent=p.slogan||p.intro||""; $("footSlogan").textContent=p.slogan||"";
   if(p.slogan) $("creedQuote").textContent=p.slogan.replace(/\s*-\s*/," – ");
   const cover=img(p.cover)||img(PROJECTS[0]?.image); if(cover) $("heroBg").style.backgroundImage=`url("${cover.replace(/"/g,"%22")}")`;
   if(photo && $("portraitIni")){ const pi=$("portraitIni"); const im=new Image(); im.alt=name; im.src=photo; im.onload=()=>{ if(pi.isConnected) pi.replaceWith(im); }; }
@@ -210,8 +209,24 @@ function buildToc(){
   const secs=[...$("pd").querySelectorAll(".pd-body [data-toc]")].filter(e=>!e.hidden&&e.innerHTML.trim());
   $("pdToc").innerHTML=secs.map(e=>`<a href="#${e.id}" data-go="${e.id}">${esc(e.dataset.toc)}</a>`).join("");
 }
-$("pdToc").addEventListener("click", e=>{ const a=e.target.closest("[data-go]"); if(!a) return; e.preventDefault(); $(a.dataset.go).scrollIntoView({behavior:"smooth",block:"start"}); });
-$("pd").querySelector(".pd-in").addEventListener("scroll", ()=>{ const links=[...$("pdToc").querySelectorAll("a")]; let cur=null; for(const a of links){ const el=$(a.dataset.go); if(el && el.getBoundingClientRect().top<160) cur=a; } links.forEach(a=>a.classList.toggle("on",a===cur)); if(cur) cur.scrollIntoView({block:"nearest",inline:"nearest"}); }, {passive:true});
+/* mục lục: tự cuộn khung dự án tới phần được bấm (trừ chiều cao thanh mục lục đang dính trên cùng) */
+let TOC_LOCK=0;
+function tocMark(cur){ const toc=$("pdToc"); toc.querySelectorAll("a").forEach(a=>a.classList.toggle("on",a===cur)); if(!cur) return; const l=cur.offsetLeft-toc.offsetLeft, r=l+cur.offsetWidth; if(l<toc.scrollLeft) toc.scrollLeft=l-16; else if(r>toc.scrollLeft+toc.clientWidth) toc.scrollLeft=r-toc.clientWidth+16; }
+$("pdToc").addEventListener("click", e=>{ const a=e.target.closest("[data-go]"); if(!a) return; e.preventDefault(); const el=$(a.dataset.go); if(!el) return;
+  tocGo(el); tocMark(a); });
+/* cuộn tới phần cần xem; tính lại đích mỗi khung hình vì ảnh phía trên tải xong sẽ đẩy nội dung xuống */
+let TOC_RUN=0;
+function tocGo(el){
+  const sc=$("pd").querySelector(".pd-in"), toc=$("pdToc"), run=++TOC_RUN;
+  const goal=()=>Math.max(0,Math.min(sc.scrollHeight-sc.clientHeight, el.getBoundingClientRect().top-toc.getBoundingClientRect().bottom+sc.scrollTop-8));
+  const stop=()=>{ TOC_RUN++; }; ["wheel","touchstart","keydown"].forEach(t=>sc.addEventListener(t,stop,{once:true,passive:true}));
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches, from=sc.scrollTop, t0=performance.now(), dur=reduce?0:450;
+  const step=now=>{ if(run!==TOC_RUN) return; const k=dur?Math.min(1,(now-t0)/dur):1, e=1-Math.pow(1-k,3);
+    TOC_LOCK=Date.now()+200; sc.scrollTop=from+(goal()-from)*e;
+    if(now-t0<dur+1500) requestAnimationFrame(step); else TOC_LOCK=0; };
+  requestAnimationFrame(step);
+}
+$("pd").querySelector(".pd-in").addEventListener("scroll", ()=>{ if(Date.now()<TOC_LOCK) return; const toc=$("pdToc"), lim=toc.getBoundingClientRect().bottom+12; let cur=null; for(const a of toc.querySelectorAll("a")){ const el=$(a.dataset.go); if(el && el.getBoundingClientRect().top<lim) cur=a; } tocMark(cur); }, {passive:true});
 /* căn giá tốt: mỗi dòng "Loại | Diện tích | Tầng | Hướng | Giá" */
 const hotRows = p => lines(p.hot).map(l=>{ const a=l.split(/\s*\|\s*/); return {type:a[0]||"",area:a[1]||"",floor:a[2]||"",dir:a[3]||"",price:a[4]||""}; }).filter(r=>r.type&&r.price);
 const hotNum = r => parseFloat(String(r.price).replace(",","."))||1e9;
