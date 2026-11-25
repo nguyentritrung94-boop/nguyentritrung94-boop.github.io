@@ -382,7 +382,7 @@ footer a:hover{color:#fff;text-decoration:underline}
 .card .tags span.hot{background:var(--orange);color:#fff}
 .card .price{font-family:var(--serif);font-weight:800;color:var(--orange);font-size:26px;line-height:1.2;letter-spacing:-.02em}
 /* trang dự án: mục lục, chính sách, tính vay, giới thiệu, vị trí, tiến độ */
-.pd-toc{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:1;background:#fff;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1 * clamp(16px,4vw,36px));padding:10px clamp(16px,4vw,36px);border-bottom:1px solid var(--line)}
+.pd-toc{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:1;background:#fff;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:10px 16px;border-bottom:1px solid var(--line)}
 .pd-toc::-webkit-scrollbar{display:none}
 .pd-toc a{flex:none;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;padding:7px 14px;border:1px solid var(--line);border-radius:999px;white-space:nowrap}
 .pd-toc a.on{background:var(--ink);border-color:var(--ink);color:#fff}
@@ -439,6 +439,35 @@ footer a:hover{color:#fff;text-decoration:underline}
 .hot-list .hr .ca{font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:underline;background:none;border:0;cursor:pointer;padding:0;font-family:inherit;white-space:nowrap}
 .pd-dock{display:none}
 @media (max-width:700px){.pd-dock{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;position:sticky;bottom:0;z-index:3;background:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 16px rgba(0,0,0,.1)}.pd-dock .btn{text-align:center;padding:13px 10px;font-size:12.5px}.pd .pd-body{padding-bottom:30px!important}}
+/* mặt bằng: hiện nguyên ảnh, không cắt, ảnh lớn để đọc được chữ */
+.pd .plan-grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));align-items:start}
+.pd .plan-grid .tile img,.pd .plan-grid.one .tile img{aspect-ratio:auto;height:auto;max-height:none;object-fit:contain;background:#fff}
+/* hình ảnh dự án, tiện ích: hiện nguyên khung ảnh, không cắt */
+.pd .gal{align-items:start}
+.pd .gal .tile img,.pd .gal img{aspect-ratio:auto;height:auto;object-fit:contain}
+.pd .amen-cards{align-items:start}
+.pd .am-card img{aspect-ratio:auto;height:auto;object-fit:contain}
+/* cửa sổ nhận bảng giá qua Zalo */
+.zq{border:0;padding:0;margin:auto;width:min(460px,calc(100% - 24px));max-height:calc(100% - 24px);background:#fff;color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.zq::backdrop{background:rgba(20,14,14,.6)}
+.zq-in{position:relative;padding:26px 22px 20px;overflow:auto;max-height:calc(100vh - 24px)}
+.zq-x{position:absolute;top:8px;right:8px;width:38px;height:38px;border:0;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted)}
+.zq-k{margin:0;padding-right:36px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+.zq h3{margin:6px 0 6px;font-size:22px}
+.zq-s{margin:0 0 16px;font-size:14px;color:var(--muted);line-height:1.5}
+.zq-f{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;margin-bottom:12px}
+.zq-f input:not([type=checkbox]){font:inherit;font-size:16px;font-weight:400;padding:11px 12px;border:1px solid #D5D8DE;outline:none;width:100%;box-sizing:border-box}
+.zq-f input:focus{border-color:var(--orange)}
+.zq-t{display:flex;flex-wrap:wrap;gap:6px}
+.zq-t label{display:inline-flex;align-items:center;gap:6px;font-weight:500;font-size:14px;border:1px solid #D5D8DE;padding:8px 12px;cursor:pointer}
+.zq-t input{accent-color:var(--orange)}
+.zq-t label:has(input:checked){border-color:var(--orange);background:#F9ECEC}
+.zq-n{margin-top:4px;font-size:14px!important}
+.zq .btn{width:100%;text-align:center;padding:14px}
+.zq-p{margin:10px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.zq-done{display:flex;flex-direction:column;gap:10px;text-align:center;padding:10px 0}
+.zq-done b{font-size:20px;color:var(--orange)}
+.zq-done span{font-size:14.5px;color:var(--muted);line-height:1.5}
 /* thương hiệu ChọnCăn */
 .brand{align-items:baseline;gap:12px}
 .brand .bc{font-family:var(--serif);font-weight:800;font-size:27px;letter-spacing:-.04em;color:var(--ink);text-transform:none;overflow:visible;line-height:1}

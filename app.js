@@ -94,8 +94,57 @@ function faqOf(p){
   return own.concat(d);
 }
 function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg; (pd.open?pd:document.body).appendChild(t); setTimeout(()=>t.remove(),3500); }
-document.addEventListener("click", e=>{ const a=e.target.closest("[data-zmsg]"); if(!a) return; const m=a.dataset.zmsg;
-  try{ navigator.clipboard.writeText(m).then(()=>toast("Đã chép sẵn tin nhắn — dán vào Zalo để gửi"),()=>{}); }catch(err){} });
+/* loại căn cho khách chọn: lấy từ cột "Loại căn" của dự án; trống thì tự suy ra từ loại sản phẩm, giá, căn nổi bật */
+const UNIT_ORDER=["Studio","1PN","2PN","3PN","4PN","5PN+","Duplex","Penthouse","Sky Villa","Liền kề","Shophouse","Biệt thự"];
+const UNIT_ALL=["Studio","1PN","2PN","3PN","4PN","Duplex","Penthouse"];
+function unitsOf(p){
+  if(!p) return UNIT_ALL;
+  const own=String(p.units||"").split(/[,·;\n]+/).map(s=>s.trim()).filter(Boolean);
+  if(own.length) return own;
+  const t=[p.type,p.price,lines(p.hot).map(l=>l.split("|")[0]).join(" ")].join(" ");
+  const set=new Set();
+  if(/studio/i.test(t)) set.add("Studio");
+  const rng=t.match(/(studio|(\d)\s*PN)\s*(?:→|->|–|-|đến)\s*(\d)\s*PN/i);
+  if(rng){ const a=/studio/i.test(rng[1])?0:+rng[2], b=+rng[3]; if(a===0) set.add("Studio"); for(let k=Math.max(1,a);k<=b;k++) set.add(k>=5?"5PN+":k+"PN"); }
+  [...t.matchAll(/(\d)\s*(?:PN|BR|phòng ngủ)/gi)].forEach(m=>{ const k=+m[1]; if(k>=1) set.add(k>=5?"5PN+":k+"PN"); });
+  [["Duplex",/duplex/i],["Penthouse",/penthouse/i],["Sky Villa",/sky\s*villa/i],["Liền kề",/liền kề/i],["Shophouse",/shophouse/i],["Biệt thự",/biệt thự/i]].forEach(([n,re])=>{ if(re.test(t)) set.add(n); });
+  const out=UNIT_ORDER.filter(u=>set.has(u));
+  return out.length?out:UNIT_ALL;
+}
+/* bấm nút Zalo → mở cửa sổ để khách để lại thông tin trước, gửi xong mới mở Zalo */
+let ZQ={href:"",msg:"",project:""};
+document.addEventListener("click", e=>{ const a=e.target.closest("[data-zmsg]"); if(!a || a.closest("#zq")) return; e.preventDefault();
+  const card=a.closest("[data-proj]"); const proj=a.dataset.proj||(PROJECTS.find(p=>a.dataset.zmsg.includes(p.name))||{}).name||"";
+  ZQ={href:a.href,msg:a.dataset.zmsg,project:proj};
+  const unit=(a.dataset.zmsg.match(/căn (Studio|\dPN)/i)||[])[1]||"";
+  $("zqProj").textContent=proj?("Dự án "+proj):"Nhận bảng giá và chính sách mới nhất";
+  $("zqForm").hidden=false; $("zqDone").hidden=true; $("zqErr").hidden=true; $("zqForm").reset();
+  $("zqTypes").innerHTML=unitsOf(PROJECTS.find(p=>p.name===proj)).map(u=>`<label><input type="checkbox" name="type" value="${esc(u)}">${esc(u)}</label>`).join("");
+  if(unit) $("zqForm").querySelectorAll('input[name="type"]').forEach(i=>{ i.checked=i.value.toLowerCase()===unit.toLowerCase(); });
+  const d=$("zq"); if(d.showModal) d.showModal(); else d.setAttribute("open",""); setTimeout(()=>$("zq-phone").focus(),50);
+});
+$("zqClose").addEventListener("click", ()=>{ const d=$("zq"); if(d.close) d.close(); else d.removeAttribute("open"); });
+$("zq").addEventListener("click", e=>{ if(e.target.id==="zq"){ const d=$("zq"); if(d.close) d.close(); else d.removeAttribute("open"); } });
+$("zqForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target), err=$("zqErr"), btn=$("zqBtn");
+  const phone=digits(f.get("phone")), name=String(f.get("name")||"").trim(), types=f.getAll("type"), note=String(f.get("note")||"").trim();
+  err.hidden=true;
+  if(!/^0\d{9,10}$/.test(phone)){ err.textContent="Số điện thoại chưa đúng, anh chị kiểm tra lại giúp."; err.hidden=false; $("zq-phone").focus(); return; }
+  if(!name){ err.textContent="Anh chị nhập giúp họ và tên."; err.hidden=false; $("zq-name").focus(); return; }
+  if(!types.length && !note){ err.textContent="Anh chị chọn giúp loại căn quan tâm."; err.hidden=false; return; }
+  ZQ.types=types;
+  const need=[types.length?"Nhu cầu: "+types.join(", "):"", note].filter(Boolean).join(". ");
+  btn.disabled=true; btn.textContent="Đang gửi…";
+  try{
+    const r=await fetch(API,{method:"POST",body:JSON.stringify({action:"lead",name,phone,project:ZQ.project,message:need+" (bấm Nhận bảng giá qua Zalo)",website:f.get("website")})});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error);
+    ZQ.msg=`Chào anh, em là ${name}${types.length?`, quan tâm căn ${types.join("/")}`:""}${ZQ.project?` dự án ${ZQ.project}`:""}. Anh gửi em bảng giá, mặt bằng và chính sách bán hàng mới nhất nhé. SĐT của em: ${phone}.`;
+    $("zqGo").href=ZQ.href; $("zqForm").hidden=true; $("zqDone").hidden=false;
+  }catch(x){ err.textContent=P.phone?`Chưa gửi được. Anh chị gọi trực tiếp ${fmtPhone(P.phone)} giúp tôi.`:"Chưa gửi được, anh chị thử lại sau ít phút."; err.hidden=false; }
+  finally{ btn.disabled=false; btn.textContent="Nhận bảng giá"; }
+});
+$("zqGo").addEventListener("click", ()=>{ try{ navigator.clipboard.writeText(ZQ.msg).then(()=>toast("Đã chép sẵn tin nhắn — dán vào Zalo để gửi"),()=>{}); }catch(err){} });
 function renderProjects(list){
   PROJECTS=list;
   const regs=["Tất cả",...new Set(list.map(regionOf))];
@@ -256,21 +305,21 @@ document.addEventListener("click", e=>{
 
 /* nội dung chi tiết: tiện ích kèm ảnh, mặt bằng theo nhóm, thư viện ảnh */
 const parseRows = s => lines(s).map(l => { const p = l.split(/\s*\|\s*/); const last = (p[p.length-1]||"").trim(); const u = /^https?:\/\//i.test(last) ? p.pop().trim() : ""; return { u, parts: p.map(x=>x.trim()).filter(Boolean) }; });
-const thumb = (u, w=520) => /^https:\/\/lh3\.googleusercontent\.com\/d\//.test(u) ? u.replace(/=w\d+$/, "=w"+w) : /^https:\/\/(cdn|server)\.g-hub\.vn\//i.test(u) ? `https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&output=webp&q=80` : u;
+const thumb = (u, w=520) => /^https:\/\/lh3\.googleusercontent\.com\/d\//.test(u) ? u.replace(/=w\d+$/, "=w"+w) : /^https:\/\/(cdn|server)\.g-hub\.vn\//i.test(u) ? `https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&we&output=webp&q=82` : u;
 const big = u => /^https:\/\/lh3\.googleusercontent\.com\/d\//.test(u) ? u.replace(/=w\d+$/, "=w2600") : u;
 const pdfOrig = u => /#pdf$/.test(u) ? u.replace(/#pdf$/, "") : "";
 const ERR = `onerror="if(this.dataset.f){this.closest('figure')&&this.closest('figure').remove()}else{this.dataset.f=1;this.src=this.dataset.full}"`;
 const isPdf = u => /\.pdf(\?|$)/i.test(u);
-const tile = (u, cap) => isPdf(u)
+const tile = (u, cap, w) => isPdf(u)
   ? `<a class="pdf" href="${esc(u)}" target="_blank" rel="noopener"><i>PDF</i><span>${esc(cap||"Tài liệu")}</span><small>Bấm để xem · phóng to bằng 2 ngón</small></a>`
-  : `<figure class="tile"><button type="button" data-lb="${esc(big(img(u)))}" data-cap="${esc(cap||"")}" data-orig="${esc(pdfOrig(u))}" aria-label="Phóng to ${esc(cap||"ảnh")}"><img src="${esc(thumb(img(u)))}" data-full="${esc(img(u))}" alt="${esc(cap||"")}" loading="lazy" ${ERR}></button>${cap?`<figcaption>${esc(cap)}</figcaption>`:""}</figure>`;
+  : `<figure class="tile"><button type="button" data-lb="${esc(big(img(u)))}" data-cap="${esc(cap||"")}" data-orig="${esc(pdfOrig(u))}" aria-label="Phóng to ${esc(cap||"ảnh")}"><img src="${esc(thumb(img(u), w||520))}" data-full="${esc(img(u))}" alt="${esc(cap||"")}" loading="lazy" ${ERR}></button>${cap?`<figcaption>${esc(cap)}</figcaption>`:""}</figure>`;
 let PLAN_GROUPS = [], planTab = 0;
 function renderPlanGroup(){
   const g = PLAN_GROUPS[planTab]; if(!g){ $("pdPlanImgs").innerHTML=""; return; }
   $("pdPlanTabs").querySelectorAll("button").forEach((b,i)=>b.setAttribute("aria-selected", String(i===planTab)));
   const one = g.items.length===1 && !isPdf(g.items[0].u);
   $("pdPlanImgs").className = "plan-grid" + (one ? " one" : "");
-  $("pdPlanImgs").innerHTML = g.items.map(it=>tile(it.u, it.cap)).join("");
+  $("pdPlanImgs").innerHTML = g.items.map(it=>tile(it.u, it.cap, one ? 2000 : 1200)).join("");
 }
 function renderRich(p){
   const am = parseRows(p.amenities);
@@ -279,7 +328,7 @@ function renderRich(p){
   $("pdAmen").className = withImg ? "amen-cards" : "amen";
   $("pdAmen").innerHTML = am.map(x => { const t = x.parts.join(" | "); const k = t.search(/\s[–-]\s/); const title = k>0 ? t.slice(0,k) : t, note = k>0 ? t.slice(k+3) : "";
     if(!withImg) return `<div class="am-li"><b>${esc(title)}</b>${note?` <span>– ${esc(note)}</span>`:""}</div>`;
-    return `<figure class="am-card">${x.u?`<button type="button" data-lb="${esc(img(x.u))}" data-cap="${esc(title+(note?" — "+note:""))}" aria-label="Phóng to ${esc(title)}"><img src="${esc(thumb(img(x.u)))}" data-full="${esc(img(x.u))}" alt="${esc(title)}" loading="lazy" ${ERR}></button>`:""}<figcaption><b>${esc(title)}</b>${note?`<span>${esc(note)}</span>`:""}</figcaption></figure>`; }).join("");
+    return `<figure class="am-card">${x.u?`<button type="button" data-lb="${esc(img(x.u))}" data-cap="${esc(title+(note?" — "+note:""))}" aria-label="Phóng to ${esc(title)}"><img src="${esc(thumb(img(x.u), 800))}" data-full="${esc(img(x.u))}" alt="${esc(title)}" loading="lazy" ${ERR}></button>`:""}<figcaption><b>${esc(title)}</b>${note?`<span>${esc(note)}</span>`:""}</figcaption></figure>`; }).join("");
   $("pdAmenBox").hidden = !am.length;
   // mặt bằng: mỗi dòng "Nhóm | Chú thích | link" (hoặc chỉ link)
   const rows = parseRows(p.planImages).filter(x=>x.u);
@@ -294,7 +343,7 @@ function renderRich(p){
   $("pdPlanBox").hidden = !(p.plan || rows.length);
   const gal = parseRows(p.gallery).filter(x=>x.u);
   $("pdGalT").textContent = "Hình ảnh dự án " + p.name;
-  $("pdGal").innerHTML = gal.map(x=>tile(x.u, x.parts.join(" · "))).join("");
+  $("pdGal").innerHTML = gal.map(x=>tile(x.u, x.parts.join(" · "), 900)).join("");
   $("pdGalBox").hidden = !gal.length;
 }
 $("pdPlanTabs").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if(b){ planTab = +b.dataset.t; renderPlanGroup(); } });
@@ -355,7 +404,7 @@ function observe(){
 const top_=$("top"); const onScroll=()=>top_.classList.toggle("solid", scrollY>60); addEventListener("scroll", onScroll, {passive:true}); onScroll();
 
 /* tải dữ liệu từ Google Sheet */
-function apply(d){ const X=window.__PREVIEW; if(X) (d.projects||[]).forEach(p=>Object.assign(p,X[p.name]||{})); renderProjects(d.projects||[]); renderVideos(d.videos||[]); renderProfile(d.profile||{}); renderHot(d.projects||[]); observe(); route(); }
+function apply(d){ const X=window.__PREVIEW; if(X){ d.projects=d.projects||[]; d.projects.forEach(p=>Object.assign(p,X[p.name]||{})); Object.entries(X).forEach(([n,o])=>{ if(o.__new && !d.projects.some(p=>p.name===n)) d.projects.push(Object.assign({name:n},o)); }); } renderProjects(d.projects||[]); renderVideos(d.videos||[]); renderProfile(d.profile||{}); renderHot(d.projects||[]); observe(); route(); }
 async function load(){
   let cache=null; try{ cache=JSON.parse(localStorage.getItem("site-cache-v2")||"null"); }catch(e){}
   if(cache) apply(cache);
