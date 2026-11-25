@@ -30,7 +30,10 @@ function setAvatar(id, name, photo){
   old.replaceWith(el);
 }
 
+/* ảnh chân dung lưu ngay trong web (img/), ưu tiên hơn ảnh trong Google Sheet */
+const MY_PHOTO="/img/nguyen-tri-trung-tron.jpg";
 function renderProfile(p){
+  if(MY_PHOTO) p.photo=MY_PHOTO;
   P=p; const name=p.name||"Tư vấn bất động sản", photo=img(p.photo), tel=digits(p.phone), zalo=digits(p.zalo||p.phone);
   $("heroName").textContent=name; ["footName","footName2"].forEach(i=>$(i).textContent=name);
   $("aboutName").textContent=name.split(/\s+/).slice(-2).join(" ");
@@ -48,9 +51,12 @@ function renderProfile(p){
   $("contactList").innerHTML=cl.join("");
   const so=[]; if(safeUrl(p.facebook)) so.push(["Facebook",p.facebook]); if(safeUrl(p.tiktok)) so.push(["TikTok",p.tiktok]);  $("socials").innerHTML=so.map(([t,u])=>`<a class="btn line sm" href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(t)} ${I.arrow}</a>`).join("");
   if(safeUrl(p.tiktok)){ const t=$("tiktokAll"); t.href=safeUrl(p.tiktok); t.hidden=false; }
-  const pl=pairs(p.pledge); $("pledge").innerHTML=pl.map(([t,d],i)=>`<div><span class="n">0${i+1}</span><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join(""); $("cam-ket").hidden=!pl.length;
-  const cr=pairs(p.creed); $("values").innerHTML=cr.map(([t,d])=>`<div><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join(""); $("values").hidden=!cr.length;
-  const st=pairs(p.process); $("steps").innerHTML=st.map(([t,d])=>`<li><b>${esc(t)}</b><p>${esc(d)}</p></li>`).join(""); $("quy-trinh").hidden=!st.length;
+  /* khối "Vì sao chọn Trung": ảnh + cam kết (bỏ "Phản hồi đúng lúc" cho gọn) + 5 bước rút gọn */
+  const pl=pairs(p.pledge).filter(([t])=>!/phản hồi/i.test(t)).slice(0,4);
+  $("pledge").innerHTML=pl.map(([t,d])=>`<li><i><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><div><b>${esc(t)}</b><p>${esc(d)}</p></div></li>`).join(""); $("cam-ket").hidden=!pl.length;
+  $("whyName").textContent=name;
+  const st=pairs(p.process); $("steps").innerHTML=st.map(([t])=>`<li>${esc(t.replace(/\s*&\s*tối ưu quyền lợi/i,""))}</li>`).join(""); $("steps").parentNode.hidden=!st.length;
+  $("whyGo").innerHTML=(zalo?`<a class="btn zalo" href="https://zalo.me/${zalo}" target="_blank" rel="noopener" data-zmsg="Chào anh Trung, tôi muốn được tư vấn chọn căn hộ.">Nhắn Zalo cho Trung</a>`:"")+(tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:"");
   const be=lines(p.benefits); $("benefits").innerHTML=be.map(b=>`<li>${esc(b)}</li>`).join("");
   // nút gọi
   const cta=[`<a class="btn gold" href="#du-an">Xem dự án đang bán</a>`];
@@ -111,17 +117,40 @@ function unitsOf(p){
   return out.length?out:UNIT_ALL;
 }
 /* bấm nút Zalo → mở cửa sổ để khách để lại thông tin trước, gửi xong mới mở Zalo */
-let ZQ={href:"",msg:"",project:""};
-document.addEventListener("click", e=>{ const a=e.target.closest("[data-zmsg]"); if(!a || a.closest("#zq")) return; e.preventDefault();
-  const card=a.closest("[data-proj]"); const proj=a.dataset.proj||(PROJECTS.find(p=>a.dataset.zmsg.includes(p.name))||{}).name||"";
-  ZQ={href:a.href,msg:a.dataset.zmsg,project:proj};
-  const unit=(a.dataset.zmsg.match(/căn (Studio|\dPN)/i)||[])[1]||"";
-  $("zqProj").textContent=proj?("Dự án "+proj):"Nhận bảng giá và chính sách mới nhất";
-  $("zqForm").hidden=false; $("zqDone").hidden=true; $("zqErr").hidden=true; $("zqForm").reset();
+let ZQ={href:"",msg:"",project:"",mode:"zalo"}, CUR_PROJ="";
+const ZQ_TXT={
+  zalo:{t:"Nhận bảng giá qua Zalo", s:"Để lại thông tin, chuyên viên gửi bảng giá, mặt bằng và chính sách mới nhất qua Zalo cho anh chị.", b:"Nhận bảng giá", cls:"btn zalo", done:"Chuyên viên sẽ gửi bảng giá qua Zalo cho anh chị trong ít phút. Anh chị có thể nhắn Zalo ngay để được tư vấn nhanh hơn.", go:"Mở Zalo nhắn ngay", src:"bấm Nhận bảng giá qua Zalo"},
+  reg:{t:"Đăng ký nhận bảng giá", s:"Để lại thông tin, chuyên viên sẽ liên hệ gửi bảng giá, mặt bằng và chính sách bán hàng mới nhất cho anh chị.", b:"Đăng ký nhận bảng giá", cls:"btn gold", done:"Chuyên viên sẽ liên hệ lại với anh chị trong thời gian sớm nhất. Muốn được tư vấn ngay, anh chị nhắn Zalo cho chuyên viên.", go:"Nhắn Zalo ngay", src:"bấm Đăng ký nhận bảng giá"}
+};
+function zqTypes(proj, unit){
   $("zqTypes").innerHTML=unitsOf(PROJECTS.find(p=>p.name===proj)).map(u=>`<label><input type="checkbox" name="type" value="${esc(u)}">${esc(u)}</label>`).join("");
   if(unit) $("zqForm").querySelectorAll('input[name="type"]').forEach(i=>{ i.checked=i.value.toLowerCase()===unit.toLowerCase(); });
+}
+function openZQ(o){
+  const T=ZQ_TXT[o.mode]||ZQ_TXT.zalo, z=digits(P.zalo||P.phone);
+  ZQ={href:o.href||(z?`https://zalo.me/${z}`:""),msg:o.msg||"",project:o.project||"",mode:o.mode};
+  $("zqForm").hidden=false; $("zqDone").hidden=true; $("zqErr").hidden=true; $("zqForm").reset();
+  $("zqT").textContent=T.t; $("zqS").textContent=T.s; $("zqBtn").textContent=T.b; $("zqBtn").className=T.cls; $("zqDoneT").textContent=T.done; $("zqGo").textContent=T.go; $("zqGo").hidden=!ZQ.href;
+  $("zqProj").textContent=ZQ.project?("Dự án "+ZQ.project):"Nhận bảng giá và chính sách mới nhất";
+  const pick=$("zqPick"); pick.hidden=!!ZQ.project||!PROJECTS.length;
+  if(!pick.hidden) $("zq-proj").innerHTML=`<option value="">Chọn dự án (không bắt buộc)</option>`+PROJECTS.map(p=>`<option>${esc(p.name)}</option>`).join("");
+  zqTypes(ZQ.project, o.unit);
+  if(o.need) $("zqForm").elements.note.value=o.need;
   const d=$("zq"); if(d.showModal) d.showModal(); else d.setAttribute("open",""); setTimeout(()=>$("zq-phone").focus(),50);
-});
+}
+$("zq-proj").addEventListener("change", e=>{ ZQ.project=e.target.value; zqTypes(ZQ.project); });
+document.addEventListener("click", e=>{
+  const a=e.target.closest("[data-zmsg]");
+  if(a && !a.closest("#zq")){ e.preventDefault();
+    const proj=a.dataset.proj||(PROJECTS.find(p=>a.dataset.zmsg.includes(p.name))||{}).name||"";
+    return openZQ({mode:"zalo",href:a.href,msg:a.dataset.zmsg,project:proj,unit:(a.dataset.zmsg.match(/căn (Studio|\dPN)/i)||[])[1]||""}); }
+  /* mọi nút đăng ký / nhận bảng giá → mở cửa sổ điền thông tin ngay tại chỗ */
+  const r=e.target.closest('a[href="#nhan-thong-tin"],a[href="/#nhan-thong-tin"],[data-reg]');
+  if(r && !r.closest("#zq")){ e.preventDefault(); e.stopImmediatePropagation();
+    const op=r.closest(".acts")?.querySelector("[data-open]"), bySlug=op?(PROJECTS.find(p=>slug(p.name)===op.dataset.open)||{}).name:"";
+    const proj=r.dataset.proj||bySlug||($("pd").open?CUR_PROJ:"")||"";
+    openZQ({mode:"reg",project:proj,need:r.dataset.need||""}); }
+}, true);
 $("zqClose").addEventListener("click", ()=>{ const d=$("zq"); if(d.close) d.close(); else d.removeAttribute("open"); });
 $("zq").addEventListener("click", e=>{ if(e.target.id==="zq"){ const d=$("zq"); if(d.close) d.close(); else d.removeAttribute("open"); } });
 $("zqForm").addEventListener("submit", async e=>{
@@ -131,17 +160,17 @@ $("zqForm").addEventListener("submit", async e=>{
   err.hidden=true;
   if(!/^0\d{9,10}$/.test(phone)){ err.textContent="Số điện thoại chưa đúng, anh chị kiểm tra lại giúp."; err.hidden=false; $("zq-phone").focus(); return; }
   if(!name){ err.textContent="Anh chị nhập giúp họ và tên."; err.hidden=false; $("zq-name").focus(); return; }
-  if(!types.length && !note){ err.textContent="Anh chị chọn giúp loại căn quan tâm."; err.hidden=false; return; }
+  if(!types.length && !note && ZQ.mode!=="reg"){ err.textContent="Anh chị chọn giúp loại căn quan tâm."; err.hidden=false; return; }
   ZQ.types=types;
   const need=[types.length?"Nhu cầu: "+types.join(", "):"", note].filter(Boolean).join(". ");
   btn.disabled=true; btn.textContent="Đang gửi…";
   try{
-    const r=await fetch(API,{method:"POST",body:JSON.stringify({action:"lead",name,phone,project:ZQ.project,message:need+" (bấm Nhận bảng giá qua Zalo)",website:f.get("website")})});
+    const r=await fetch(API,{method:"POST",body:JSON.stringify({action:"lead",name,phone,project:ZQ.project,message:(need?need+" ":"")+"("+(ZQ_TXT[ZQ.mode]||ZQ_TXT.zalo).src+")",website:f.get("website")})});
     const j=await r.json(); if(!j.ok) throw new Error(j.error);
     ZQ.msg=`Chào anh, em là ${name}${types.length?`, quan tâm căn ${types.join("/")}`:""}${ZQ.project?` dự án ${ZQ.project}`:""}. Anh gửi em bảng giá, mặt bằng và chính sách bán hàng mới nhất nhé. SĐT của em: ${phone}.`;
     $("zqGo").href=ZQ.href; $("zqForm").hidden=true; $("zqDone").hidden=false;
   }catch(x){ err.textContent=P.phone?`Chưa gửi được. Anh chị gọi trực tiếp ${fmtPhone(P.phone)} giúp tôi.`:"Chưa gửi được, anh chị thử lại sau ít phút."; err.hidden=false; }
-  finally{ btn.disabled=false; btn.textContent="Nhận bảng giá"; }
+  finally{ btn.disabled=false; btn.textContent=(ZQ_TXT[ZQ.mode]||ZQ_TXT.zalo).b; }
 });
 $("zqGo").addEventListener("click", ()=>{ try{ navigator.clipboard.writeText(ZQ.msg).then(()=>toast("Đã chép sẵn tin nhắn — dán vào Zalo để gửi"),()=>{}); }catch(err){} });
 function renderProjects(list){
@@ -237,12 +266,23 @@ function renderHot(list){
   const box=document.getElementById("can-tot"); if(!box) return;
   const items=list.map((p,i)=>({p,i,r:hotRows(p)[0]})).filter(x=>x.r).sort((a,b)=>hotNum(a.r)-hotNum(b.r));
   box.hidden=!items.length;
-  $("hotGrid").innerHTML=items.map(({p,i,r})=>{ const c=img(p.image); return `<div class="hc">
+  /* lọc nhanh theo ngân sách + chỉ hiện 8 căn đầu (2 hàng đủ trên máy tính) */
+  const B=[["all","Tất cả",()=>true],["lt4","Dưới 4 tỷ",n=>n<4],["4-7","4 – 7 tỷ",n=>n>=4&&n<=7],["gt7","Trên 7 tỷ",n=>n>7&&n<1e9]].filter(([k,,f])=>k==="all"||items.some(x=>f(hotNum(x.r))));
+  let cur="all", open=matchMedia("(max-width:600px)").matches /* điện thoại: vuốt ngang, hiện đủ */; const LIM=8;
+  const draw=()=>{ const f=B.find(b=>b[0]===cur)[2], cs=$("hotGrid").children; let n=0, tot=0;
+    for(const el of cs){ const ok=f(+el.dataset.n); if(ok) tot++; const show=ok&&(open||cur!=="all"||n<LIM); if(show) n++; el.hidden=!show; }
+    const m=$("hotMore"); m.hidden=open||cur!=="all"||tot<=LIM; m.textContent=`Xem thêm ${tot-LIM} căn`;
+    $("hotF").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===cur)); };
+  $("hotF").innerHTML=B.length>2?B.map(([k,t,f])=>`<button type="button" data-k="${k}">${t}<small>${items.filter(x=>f(hotNum(x.r))).length}</small></button>`).join(""):"";
+  $("hotF").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; cur=b.dataset.k; draw(); };
+  $("hotMore").onclick=()=>{ open=true; draw(); };
+  $("hotGrid").innerHTML=items.map(({p,i,r})=>{ const c=img(p.image); return `<div class="hc" data-n="${hotNum(r)}">
     <a class="hc-img" href="/${slug(p.name)}" data-i="${i}" style="${c?`background-image:url('${esc(c)}')`:""}"><span>${esc(r.type)}</span></a>
     <div class="hc-b"><a class="hc-p" href="/${slug(p.name)}" data-i="${i}">${esc(p.name)}</a>
     <div class="hc-t">${esc(r.type)} · ${esc(r.area)}</div><div class="hc-m">${esc([r.floor&&("Tầng "+String(r.floor).replace(/^tầng\s*/i,"")), r.dir&&("Hướng "+r.dir)].filter(Boolean).join(" · "))}</div>
     <div class="hc-pr"><b>${esc(r.price)}</b><small>Giá TT sớm</small></div>
     ${hotAsk(p,r,"btn zalo","Hỏi căn này qua Zalo")}</div></div>`; }).join("");
+  draw();
 }
 function renderHero(list){
   const all=list.flatMap(prices); const vons=list.map(p=>(String(p.von||"").match(/từ\s*~?\s*(\d+(?:[.,]\d+)?)\s*tỷ/i)||[])[1]).filter(Boolean).map(x=>+x.replace(",","."));
@@ -269,7 +309,7 @@ function renderVideos(list){
 /* chi tiết dự án */
 const pd=$("pd");
 function openProject(i, fromRoute){
-  const p=PROJECTS[i]; if(!p) return;
+  const p=PROJECTS[i]; if(!p) return; CUR_PROJ=p.name;
   $("pdImg").src=img(p.image)||""; $("pdImg").alt="Phối cảnh "+p.name; $("pdTitle").textContent=p.name;
   const f=[["Tên dự án",p.name],["Vị trí",p.location],["Khu vực",regionOf(p)],["Loại sản phẩm",p.type],["Pháp lý",p.legal],["Bàn giao",p.handover]].filter(x=>x[1]);
   $("pdSub1").textContent="Tổng quan dự án "+p.name;
@@ -286,7 +326,11 @@ function openProject(i, fromRoute){
   $("pdHl").innerHTML=`<div><small>${priceLabel(p)}</small><b>${esc(p.price||"Liên hệ")}</b>${vonTxt(p)}${p.badge?`<br><span class="hot">${esc(p.badge)}</span>`:""}</div><div class="go">${zaloBtn(p)}${tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:""}</div>`;
   const fq=faqOf(p); $("pdFaqT").textContent="Hỏi – đáp về "+p.name;
   $("pdFaq").innerHTML=fq.map(([q,a],k)=>`<details${k===0?" open":""}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join(""); $("pdFaqBox").hidden=!fq.length;
-  $("pdActs").innerHTML=`<a class="btn gold" href="#nhan-thong-tin" data-proj="${esc(p.name)}">Đăng ký nhận bảng giá ${esc(p.name)}</a>`+zaloBtn(p,"btn line")+(tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:"");
+  /* khung "người đồng hành": người thật đứng sau dự án */
+  if(P.name){ const ph=P.photo?`<img src="${esc(P.photo)}" alt="${esc(P.name)}" loading="lazy">`:`<span class="ini">${esc(initial(P.name))}</span>`;
+    $("pdCs").innerHTML=`${ph}<div class="cs-t"><small>Người đồng hành cùng anh chị tại ${esc(p.name)}</small><b>${esc(P.name)}</b><p>${esc($("footRole").textContent)}</p><div class="cs-go">${tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:""}${zaloBtn(p,"btn zalo").replace("Nhận bảng giá qua Zalo","Nhắn Zalo tư vấn")}</div></div>`;
+    $("pdCs").hidden=false; }
+  $("pdActs").innerHTML=`<a class="btn gold" href="#nhan-thong-tin" data-proj="${esc(p.name)}">Đăng ký nhận bảng giá ${esc(p.name)}</a>`+(P.name?"":zaloBtn(p,"btn line")+(tel?`<a class="btn line" href="tel:${tel}">${I.phone}Gọi ${fmtPhone(tel)}</a>`:""));
   $("pdBarActs").innerHTML=tel?`<a class="btn gold sm" href="tel:${tel}">${I.phone}Gọi ngay</a>`:"";
   const others=PROJECTS.map((q,j)=>({q,j})).filter(x=>x.j!==i);
   $("pdOthers").innerHTML=others.map(({q,j})=>`<a class="card" href="/${slug(q.name)}" data-i="${j}">${img(q.image)?`<img src="${esc(img(q.image))}" alt="" loading="lazy">`:`<div class="ph"></div>`}<div class="txt"><h3>${esc(q.name)}</h3>${q.location?`<div class="loc">${I.pin}<span>${esc(q.location)}</span></div>`:""}</div></a>`).join("");
